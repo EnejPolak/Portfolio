@@ -6,7 +6,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { useRef, MouseEvent } from 'react'
 
 interface FloatingCardProps {
-    children: React.ReactNode
+    children?: React.ReactNode  // ⬅️ Dodajte ?
     delay?: number
 }
 
@@ -196,4 +196,4 @@ const FloatingParticles = () => {
     )
 }
 
-export default FloatingCard
+export default FloatingCard   

@@ -1,7 +1,9 @@
+// tailwind.config.ts
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
     content: [
+        './src/**/*.{js,ts,jsx,tsx,mdx}',       // zajame vse datoteke pod src/
         './pages/**/*.{js,ts,jsx,tsx,mdx}',
         './components/**/*.{js,ts,jsx,tsx,mdx}',
         './app/**/*.{js,ts,jsx,tsx,mdx}',
@@ -31,7 +33,7 @@ const config: Config = {
                 mono: ['JetBrains Mono', 'monospace'],
             },
             animation: {
-                'float': 'float 6s ease-in-out infinite',
+                float: 'float 6s ease-in-out infinite',
                 'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
                 'gradient-shift': 'gradient-shift 3s ease infinite',
                 'fade-in': 'fadeIn 0.5s ease-in-out',
@@ -49,12 +51,8 @@ const config: Config = {
                     '50%': { transform: 'translateY(-20px)' },
                 },
                 'pulse-glow': {
-                    '0%, 100%': {
-                        boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)',
-                    },
-                    '50%': {
-                        boxShadow: '0 0 40px rgba(99, 102, 241, 0.8)',
-                    },
+                    '0%, 100%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.5)' },
+                    '50%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.8)' },
                 },
                 'gradient-shift': {
                     '0%': { backgroundPosition: '0% 50%' },
@@ -105,7 +103,7 @@ const config: Config = {
                 '128': '32rem',
             },
             screens: {
-                'xs': '475px',
+                xs: '475px',
                 '3xl': '1600px',
             },
             container: {
@@ -124,4 +122,5 @@ const config: Config = {
         // require('@tailwindcss/typography'),
     ],
 }
+
 export default config

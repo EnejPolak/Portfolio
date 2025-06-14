@@ -56,14 +56,14 @@ body {
   background: var(--accent);
 }
 
-/* Cursor */
+/* Fixed Cursor - dodal pointer-events: none za vse elemente */
 .cursor {
   position: fixed;
   width: 20px;
   height: 20px;
   border-radius: 50%;
   background: var(--primary);
-  pointer-events: none;
+  pointer-events: none; /* KLJUČNO: ne sme blokirati kliikov */
   z-index: 9999;
   mix-blend-mode: difference;
   transition: transform 0.2s ease;
@@ -75,7 +75,7 @@ body {
   height: 40px;
   border: 2px solid var(--primary);
   border-radius: 50%;
-  pointer-events: none;
+  pointer-events: none; /* KLJUČNO: ne sme blokirati klikov */
   z-index: 9998;
   transition: transform 0.3s ease;
 }
@@ -88,20 +88,49 @@ body {
   background-clip: text;
 }
 
-/* Glassmorphism */
+/* Glassmorphism - izboljšan za boljšo interakcijo */
 .glass {
   background: rgba(255, 255, 255, 0.05);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Zagotovi da ne blokira klikov */
+  pointer-events: auto;
 }
 
-/* Magnetic Hover */
+/* Magnetic Hover - izboljšan za gumbje */
 .magnetic {
   transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  /* Zagotovi da ohranja pointer-events */
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .magnetic:hover {
   transform: scale(1.05);
+}
+
+/* Button specific fixes - dodal za zagotovitev pravilnega delovanja */
+button {
+  pointer-events: auto !important;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+}
+
+button:disabled {
+  pointer-events: none;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Zagotovi da vsi interaktivni elementi delujejo */
+a, button, input, textarea, select {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+a[href], button:not(:disabled) {
+  cursor: pointer;
 }
 
 /* Smooth Transitions */
@@ -177,6 +206,40 @@ body {
   font-weight: 600;
 }
 
+/* Z-index hierarhija - dodano za boljše upravljanje slojev */
+.z-background {
+  z-index: 0;
+}
+
+.z-content {
+  z-index: 10;
+}
+
+.z-interactive {
+  z-index: 20;
+}
+
+.z-overlay {
+  z-index: 30;
+}
+
+.z-cursor {
+  z-index: 9998;
+}
+
+.z-cursor-main {
+  z-index: 9999;
+}
+
+/* Zagotovi da overlay elementi ne blokirajo interakcije */
+.overlay-safe {
+  pointer-events: none;
+}
+
+.overlay-safe > * {
+  pointer-events: auto;
+}
+
 /* Utilities */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
@@ -185,4 +248,14 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Debug pomocnik za preverjanje klikov */
+.debug-clickable {
+  outline: 2px dashed red !important;
+}
+
+.debug-non-clickable {
+  outline: 2px dashed blue !important;
+  pointer-events: none !important;
 }

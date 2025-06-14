@@ -1,8 +1,8 @@
 import Hero from './components/sections/Hero'
 import Projects from './components/sections/Projects'
 import CustomCursor from './components/ui/CustomCursor'
-// import Navigation from './components/layout/Navigation'
-// import SmoothScrolling from './components/animations/SmoothScrolling'
+import FloatingCards from './components/3d/FloatingCard'
+import Skills from './components/sections/Skills'
 
 export default function Home() {
     return (
@@ -19,12 +19,13 @@ export default function Home() {
                 <Projects />
             </section>
 
-            {/* Skills Section Placeholder */}
-            <section id="skills" className="min-h-screen bg-muted flex items-center justify-center">
-                <div className="text-center">
-                    <h2 className="text-6xl font-bold gradient-text mb-4">Skills</h2>
-                    <p className="text-xl text-muted-foreground">Interactive skill animations! ⚡</p>
-                </div>
+            <section id="floatingCards">
+                <FloatingCards />
+            </section>
+
+            {/* Skills Section */}
+            <section id="skills">
+                <Skills />
             </section>
 
             {/* Contact Section Placeholder */}

@@ -2,12 +2,14 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react'
+import { useEffect, useState, useRef } from 'react'
+import { ChevronDown, Github, Linkedin, Mail, ArrowRight, Sparkles } from 'lucide-react'
 
 const Hero = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
     const [isLoaded, setIsLoaded] = useState(false)
+    const backgroundRef = useRef(null)
+    const gridRef = useRef(null)
 
     useEffect(() => {
         setIsLoaded(true)
@@ -23,95 +25,172 @@ const Hero = () => {
         return () => window.removeEventListener('mousemove', handleMouseMove)
     }, [])
 
+    // Force CSS animations with higher specificity
+    useEffect(() => {
+        const createSubtleAnimations = () => {
+            // Remove existing styles first
+            const existingStyle = document.getElementById('hero-animations')
+            if (existingStyle) {
+                existingStyle.remove()
+            }
+
+            const style = document.createElement('style')
+            style.id = 'hero-animations'
+            style.textContent = `
+                .hero-gentle-float {
+                    animation: hero-gentle-float 4s ease-in-out infinite !important;
+                }
+                
+                .hero-subtle-pulse {
+                    animation: hero-subtle-pulse 3s ease-in-out infinite !important;
+                }
+                
+                .hero-grid-shift {
+                    animation: hero-grid-shift 8s ease-in-out infinite !important;
+                }
+                
+                .hero-orb-drift {
+                    animation: hero-orb-drift 12s ease-in-out infinite !important;
+                }
+                
+                @keyframes hero-gentle-float {
+                    0%, 100% { 
+                        transform: translateY(0px) scale(1) !important; 
+                        opacity: 0.3 !important; 
+                    }
+                    50% { 
+                        transform: translateY(-8px) scale(1.02) !important; 
+                        opacity: 0.6 !important; 
+                    }
+                }
+                
+                @keyframes hero-subtle-pulse {
+                    0%, 100% { opacity: 0.1 !important; }
+                    50% { opacity: 0.25 !important; }
+                }
+                
+                @keyframes hero-grid-shift {
+                    0% { transform: translate(0, 0) !important; }
+                    100% { transform: translate(2px, 2px) !important; }
+                }
+                
+                @keyframes hero-orb-drift {
+                    0%, 100% { 
+                        transform: translate(0, 0) scale(1) !important; 
+                    }
+                    50% { 
+                        transform: translate(20px, -15px) scale(1.05) !important; 
+                    }
+                }
+            `
+            document.head.appendChild(style)
+            return () => {
+                const styleToRemove = document.getElementById('hero-animations')
+                if (styleToRemove) {
+                    styleToRemove.remove()
+                }
+            }
+        }
+
+        const cleanup = createSubtleAnimations()
+        return cleanup
+    }, [])
+
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
             transition: {
-                staggerChildren: 0.2,
-                delayChildren: 0.3
+                staggerChildren: 0.15,
+                delayChildren: 0.2
             }
         }
     }
 
     const itemVariants = {
-        hidden: { y: 100, opacity: 0 },
+        hidden: { y: 60, opacity: 0 },
         visible: {
             y: 0,
             opacity: 1,
             transition: {
                 type: "spring",
-                damping: 20,
-                stiffness: 100
+                damping: 25,
+                stiffness: 120
             }
         }
     }
 
     const textVariants = {
-        hidden: { x: -100, opacity: 0 },
+        hidden: { x: -60, opacity: 0 },
         visible: {
             x: 0,
             opacity: 1,
             transition: {
                 type: "spring",
-                damping: 20,
-                stiffness: 100,
-                delay: 0.5
+                damping: 25,
+                stiffness: 120,
+                delay: 0.3
             }
         }
     }
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background to-muted">
-            {/* Animated Background */}
-            <div className="absolute inset-0">
-                {/* Gradient Orbs */}
-                <motion.div
-                    className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl"
-                    animate={{
-                        x: mousePosition.x * 50,
-                        y: mousePosition.y * 50,
-                        scale: [1, 1.2, 1],
+        <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+            {/* Clean Professional Background */}
+            <div
+                ref={backgroundRef}
+                className="absolute inset-0"
+                style={{
+                    background: `
+                        linear-gradient(135deg, 
+                            hsl(var(--background)) 0%, 
+                            hsl(var(--background)) 60%,
+                            hsl(var(--muted)) 100%
+                        )
+                    `
+                }}
+            >
+                {/* Subtle Animated Grid */}
+                <div
+                    ref={gridRef}
+                    className="absolute inset-0 opacity-[0.03] hero-grid-shift pointer-events-none"
+                    style={{
+                        backgroundImage: `
+                            linear-gradient(rgba(99, 102, 241, 0.4) 1px, transparent 1px),
+                            linear-gradient(90deg, rgba(99, 102, 241, 0.4) 1px, transparent 1px)
+                        `,
+                        backgroundSize: '80px 80px'
                     }}
-                    transition={{
-                        x: { type: "spring", stiffness: 50, damping: 30 },
-                        y: { type: "spring", stiffness: 50, damping: 30 },
-                        scale: { duration: 4, repeat: Infinity, ease: "easeInOut" }
-                    } as any}
                 />
 
-                <motion.div
-                    className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-accent/20 rounded-full blur-3xl"
-                    animate={{
-                        x: mousePosition.x * -30,
-                        y: mousePosition.y * -30,
-                        scale: [1.2, 1, 1.2],
+                {/* Single Subtle Orb */}
+                <div
+                    className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.15] hero-orb-drift pointer-events-none"
+                    style={{
+                        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%)',
+                        transform: `translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
                     }}
-                    transition={{
-                        x: { type: "spring", stiffness: 50, damping: 30 },
-                        y: { type: "spring", stiffness: 50, damping: 30 },
-                        scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                    } as any}
                 />
 
-                {/* Floating Particles */}
-                {[...Array(20)].map((_, i) => (
-                    <motion.div
+                {/* Minimal Accent Line */}
+                <div
+                    className="absolute top-1/2 left-0 w-32 h-px opacity-20 hero-subtle-pulse pointer-events-none"
+                    style={{
+                        background: 'linear-gradient(to right, transparent, rgba(99, 102, 241, 0.8), transparent)'
+                    }}
+                />
+
+                {/* Floating Minimal Particles */}
+                {[...Array(3)].map((_, i) => (
+                    <div
                         key={i}
-                        className="absolute w-2 h-2 bg-primary rounded-full opacity-20"
+                        className={`absolute w-1 h-1 rounded-full hero-gentle-float pointer-events-none`}
                         style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
+                            left: `${20 + i * 30}%`,
+                            top: `${30 + i * 20}%`,
+                            background: 'rgba(99, 102, 241, 0.6)',
+                            animationDelay: `${i * 1.5}s`
                         }}
-                        animate={{
-                            y: [0, -30, 0],
-                            opacity: [0.2, 0.8, 0.2],
-                        }}
-                        transition={{
-                            duration: 3 + Math.random() * 2,
-                            repeat: Infinity,
-                            delay: Math.random() * 2,
-                        } as any}
                     />
                 ))}
             </div>
@@ -126,15 +205,15 @@ const Hero = () => {
                 {/* Greeting */}
                 <motion.div
                     variants={itemVariants}
-                    className="mb-12"
+                    className="mb-6"
                 >
-                    <span className="text-primary font-mono text-lg">Hello, I'm</span>
+                    <span className="text-primary font-mono text-sm tracking-wider">HELLO, I'M</span>
                 </motion.div>
 
                 {/* Name */}
                 <motion.h1
                     variants={textVariants}
-                    className="text-hero font-bold mb-12 gradient-text"
+                    className="text-hero font-bold mb-6 gradient-text"
                 >
                     Enej Polak
                 </motion.h1>
@@ -142,17 +221,17 @@ const Hero = () => {
                 {/* Animated Subtitle */}
                 <motion.div
                     variants={itemVariants}
-                    className="mb-16"
+                    className="mb-8"
                 >
-                    <h2 className="text-section text-muted-foreground mb-4">
+                    <h2 className="text-section text-muted-foreground mb-6">
                         I create{' '}
                         <motion.span
                             className="text-primary"
                             animate={{
-                                color: ['#6366f1', '#8b5cf6', '#ec4899', '#6366f1'],
+                                color: ['#6366f1', '#8b5cf6', '#6366f1'],
                             }}
                             transition={{
-                                duration: 3,
+                                duration: 4,
                                 repeat: Infinity,
                                 ease: "easeInOut"
                             } as any}
@@ -163,10 +242,10 @@ const Hero = () => {
 
                     <TypewriterText
                         texts={[
-                            "Full Stack Developer",
+                            "Frontend Developer",
                             "UI/UX Designer",
-                            "Creative Problem Solver",
-                            "Tech Enthusiast"
+                            "React Specialist",
+                            "Creative Coder"
                         ]}
                     />
                 </motion.div>
@@ -174,82 +253,146 @@ const Hero = () => {
                 {/* Description */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-lg lg:text-xl text-muted-foreground max-w-4xl mx-auto leading-relaxed mb-48 px-4"
+                    className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
                 >
-                    Passionate about creating beautiful, functional, and user-centered digital
-                    experiences. I bring ideas to life through clean code and stunning design.
+                    Crafting beautiful, performant, and user-centered web applications with modern technologies and clean, maintainable code.
                 </motion.p>
 
-                {/* CTA Buttons */}
+                {/* Enhanced CTA Buttons */}
+                {/* Enhanced CTA Buttons */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex flex-col sm:flex-row gap-6 justify-center items-center my-128"
+                    className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-15 mt-14"
                 >
+                    {/* Primary Button with Magic Effect */}
                     <motion.button
-                        className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg overflow-hidden"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg overflow-hidden border border-primary/20"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                     >
+                        {/* Magic Background */}
                         <motion.div
-                            className="absolute inset-0 bg-gradient-to-r from-primary to-accent"
+                            className="absolute inset-0 bg-gradient-to-r from-primary via-accent to-primary opacity-0 group-hover:opacity-100"
                             initial={{ x: '-100%' }}
-                            whileHover={{ x: 0 }}
-                            transition={{ type: "spring", stiffness: 300, damping: 30 } as any}
+                            whileHover={{ x: '100%' }}
+                            transition={{
+                                x: { duration: 0.6, ease: "easeInOut" },
+                                opacity: { duration: 0.2 }
+                            } as any}
                         />
-                        <span className="relative z-10">View My Work</span>
+
+                        {/* Sparkle Effect */}
+                        <motion.div
+                            className="absolute inset-0 opacity-0 group-hover:opacity-100"
+                            transition={{ duration: 0.3 } as any}
+                        >
+                            <Sparkles className="absolute top-2 right-2 w-3 h-3 text-white/60" />
+                            <Sparkles className="absolute bottom-2 left-2 w-2 h-2 text-white/40" />
+                        </motion.div>
+
+                        <span className="relative z-10 flex items-center gap-2">
+                            View My Work
+                            <motion.div
+                                className="group-hover:translate-x-1 transition-transform duration-200"
+                            >
+                                <ArrowRight className="w-4 h-4" />
+                            </motion.div>
+                        </span>
                     </motion.button>
 
+                    {/* Secondary Button with Morphing Border */}
                     <motion.button
-                        className="group px-8 py-4 border-2 border-primary text-primary rounded-full font-semibold text-lg hover:bg-primary hover:text-primary-foreground transition-colors"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
+                        className="group relative px-8 py-4 bg-transparent text-primary rounded-full font-semibold text-lg overflow-hidden"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
                     >
-                        Get In Touch
+                        {/* Morphing Border */}
+                        <motion.div
+                            className="absolute inset-0 rounded-full border-2 border-primary/30"
+                            whileHover={{
+                                scale: [1, 1.05, 1],
+                                borderWidth: ['2px', '3px', '2px'],
+                                borderColor: ['rgba(99, 102, 241, 0.3)', 'rgba(99, 102, 241, 1)', 'rgba(99, 102, 241, 0.3)']
+                            }}
+                            transition={{ duration: 0.5 } as any}
+                        />
+
+                        {/* Gradient Fill on Hover */}
+                        <motion.div
+                            className="absolute inset-0 bg-primary/5 rounded-full opacity-0 group-hover:opacity-100"
+                            transition={{ duration: 0.3 } as any}
+                        />
+
+                        <span className="relative z-10">Get In Touch</span>
                     </motion.button>
                 </motion.div>
 
-                {/* Social Links */}
+                {/* Enhanced Social Links */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex justify-center gap-8 mb-32"
+                    className="flex justify-center gap-6"
                 >
                     {[
-                        { icon: Github, href: "#", label: "GitHub" },
-                        { icon: Linkedin, href: "#", label: "LinkedIn" },
-                        { icon: Mail, href: "#", label: "Email" }
-                    ].map(({ icon: Icon, href, label }) => (
+                        { icon: Github, href: "#", label: "GitHub", color: "hover:text-white hover:bg-black" },
+                        { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-white hover:bg-blue-600" },
+                        { icon: Mail, href: "#", label: "Email", color: "hover:text-white hover:bg-green-600" }
+                    ].map(({ icon: Icon, href, label, color }) => (
                         <motion.a
                             key={label}
                             href={href}
-                            className="p-4 bg-card rounded-full border border-border hover:border-primary transition-colors group"
+                            className={`group relative p-4 bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 transition-all duration-300 ${color}`}
                             whileHover={{
                                 scale: 1.1,
-                                rotateY: 180
+                                y: -5
                             }}
-                            whileTap={{ scale: 0.9 }}
+                            whileTap={{ scale: 0.95 }}
                         >
-                            <Icon className="w-6 h-6 text-muted-foreground group-hover:text-primary transition-colors" />
+                            {/* Glow Effect */}
+                            <motion.div
+                                className="absolute inset-0 rounded-xl bg-primary/10 opacity-0 group-hover:opacity-100"
+                                transition={{ duration: 0.3 } as any}
+                            />
+
+                            {/* Icon Rotation */}
+                            <motion.div
+                                whileHover={{ rotateY: 360 }}
+                                transition={{ duration: 0.6 } as any}
+                            >
+                                <Icon className="w-5 h-5 relative z-10 transition-colors duration-300" />
+                            </motion.div>
+
+                            {/* Tooltip */}
+                            <span className="absolute -top-8 left-1/2 transform -translate-x-1/2 text-xs bg-primary text-white px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                                {label}
+                            </span>
                         </motion.a>
                     ))}
                 </motion.div>
             </motion.div>
 
-            {/* Scroll Indicator */}
+            {/* Enhanced Scroll Indicator */}
             <motion.div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity } as any}
+                animate={{ y: [0, 8, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" } as any}
             >
-                <div className="flex flex-col items-center text-muted-foreground">
-                    <span className="text-sm mb-2 rotate-90 whitespace-nowrap">Scroll down</span>
-                    <ChevronDown className="w-6 h-6" />
+                <div className="flex flex-col items-center text-muted-foreground group cursor-pointer">
+                    <span className="text-xs mb-3 font-mono tracking-wider opacity-60 group-hover:opacity-100 transition-opacity">
+                        SCROLL
+                    </span>
+                    <motion.div
+                        className="p-2 rounded-full border border-muted-foreground/20 group-hover:border-primary/50 transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                    >
+                        <ChevronDown className="w-4 h-4 group-hover:text-primary transition-colors" />
+                    </motion.div>
                 </div>
             </motion.div>
         </section>
     )
 }
 
-// Typewriter Effect Component
+// Enhanced Typewriter Effect
 const TypewriterText = ({ texts }: { texts: string[] }) => {
     const [currentTextIndex, setCurrentTextIndex] = useState(0)
     const [currentText, setCurrentText] = useState('')
@@ -266,23 +409,23 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
             }
 
             if (!isDeleting && currentText === fullText) {
-                setTimeout(() => setIsDeleting(true), 2000)
+                setTimeout(() => setIsDeleting(true), 2500)
             } else if (isDeleting && currentText === '') {
                 setIsDeleting(false)
                 setCurrentTextIndex((prev) => (prev + 1) % texts.length)
             }
-        }, isDeleting ? 50 : 150)
+        }, isDeleting ? 30 : 80)
 
         return () => clearTimeout(timeout)
     }, [currentText, isDeleting, currentTextIndex, texts])
 
     return (
-        <div className="text-2xl font-mono text-accent h-8">
-            {currentText}
+        <div className="text-xl font-mono text-accent h-8 flex items-center justify-center">
+            <span className="min-w-0">{currentText}</span>
             <motion.span
                 animate={{ opacity: [0, 1, 0] }}
-                transition={{ duration: 1, repeat: Infinity } as any}
-                className="text-primary"
+                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" } as any}
+                className="text-primary ml-1"
             >
                 |
             </motion.span>

@@ -326,7 +326,7 @@ const Projects = () => {
                             perspective: '1200px'
                         }}
                     >
-                        {/* First Row - 3 projects */}
+                        {/* First Row - 3 projects (1, 2, 3) */}
                         <div
                             className="grid grid-cols-1 md:grid-cols-3 mx-auto"
                             style={{
@@ -352,7 +352,6 @@ const Projects = () => {
                                     }}
                                 >
                                     <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                        {/* Slika - zmanjšana višina */}
                                         <div className="relative h-40 overflow-hidden">
                                             <img
                                                 src={project.image}
@@ -364,14 +363,12 @@ const Projects = () => {
                                             />
                                         </div>
 
-                                        {/* Vsebina - zmanjšana višina */}
                                         <div className="p-5 h-40 flex flex-col justify-between">
                                             <div>
                                                 <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
                                                 <p className="text-purple-300 text-sm mb-3">{project.category}</p>
                                             </div>
 
-                                            {/* Tech ikone */}
                                             <div className="flex justify-center gap-2">
                                                 {project.techIcons.map((icon: string, i: number) => (
                                                     <div
@@ -396,7 +393,7 @@ const Projects = () => {
                             ))}
                         </div>
 
-                        {/* Second Row - 3 projects */}
+                        {/* Second Row - 3 projects (4, 5, 6) */}
                         <div
                             className="grid grid-cols-1 md:grid-cols-3 mx-auto"
                             style={{
@@ -424,7 +421,6 @@ const Projects = () => {
                                         }}
                                     >
                                         <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                            {/* Slika - zmanjšana višina */}
                                             <div className="relative h-40 overflow-hidden">
                                                 <img
                                                     src={project.image}
@@ -436,14 +432,12 @@ const Projects = () => {
                                                 />
                                             </div>
 
-                                            {/* Vsebina - zmanjšana višina */}
                                             <div className="p-5 h-40 flex flex-col justify-between">
                                                 <div>
                                                     <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
                                                     <p className="text-purple-300 text-sm mb-3">{project.category}</p>
                                                 </div>
 
-                                                {/* Tech ikone */}
                                                 <div className="flex justify-center gap-2">
                                                     {project.techIcons.map((icon: string, i: number) => (
                                                         <div
@@ -469,7 +463,7 @@ const Projects = () => {
                             })}
                         </div>
 
-                        {/* Third Row - 1 project centered */}
+                        {/* Third Row - 1 project centered (7) */}
                         <div
                             className="flex justify-center"
                             style={{ maxWidth: '1200px', margin: '0 auto' }}
@@ -488,7 +482,6 @@ const Projects = () => {
                                 }}
                             >
                                 <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                    {/* Slika - zmanjšana višina */}
                                     <div className="relative h-40 overflow-hidden">
                                         <img
                                             src={projectsData[6].image}
@@ -500,14 +493,12 @@ const Projects = () => {
                                         />
                                     </div>
 
-                                    {/* Vsebina - zmanjšana višina */}
                                     <div className="p-5 h-40 flex flex-col justify-between">
                                         <div>
                                             <h3 className="text-lg font-semibold text-white mb-2">{projectsData[6].name}</h3>
                                             <p className="text-purple-300 text-sm mb-3">{projectsData[6].category}</p>
                                         </div>
 
-                                        {/* Tech ikone */}
                                         <div className="flex justify-center gap-2">
                                             {projectsData[6].techIcons.map((icon: string, i: number) => (
                                                 <div

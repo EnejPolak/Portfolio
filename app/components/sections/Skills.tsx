@@ -137,13 +137,15 @@ const Skills = () => {
             <div className="container mx-auto px-4 relative z-10">
                 {/* Section Header */}
                 <motion.div
-                    className="text-center mb-32 mt-16"
+                    className="text-center"
+                    style={{ marginBottom: '3rem', marginTop: '4rem' }}
                     initial={{ opacity: 0, y: 50 }}
                     animate={isInView ? { opacity: 1, y: 0 } : {}}
                     transition={{ duration: 1, ease: "easeOut" }}
                 >
                     <motion.h2
-                        className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-6"
+                        className="text-6xl md:text-7xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent"
+                        style={{ marginBottom: '1.5rem' }}
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={isInView ? { opacity: 1, scale: 1 } : {}}
                         transition={{ delay: 0.3, duration: 1 }}

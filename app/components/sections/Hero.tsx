@@ -205,7 +205,7 @@ const Hero = () => {
                 {/* Greeting */}
                 <motion.div
                     variants={itemVariants}
-                    className="mb-6"
+                    className="mb-8"
                 >
                     <span className="text-primary font-mono text-sm tracking-wider">HELLO, I'M</span>
                 </motion.div>
@@ -213,7 +213,7 @@ const Hero = () => {
                 {/* Name */}
                 <motion.h1
                     variants={textVariants}
-                    className="text-hero font-bold mb-6 gradient-text"
+                    className="text-hero font-bold mb-10 gradient-text"
                 >
                     Enej Polak
                 </motion.h1>
@@ -221,9 +221,9 @@ const Hero = () => {
                 {/* Animated Subtitle */}
                 <motion.div
                     variants={itemVariants}
-                    className="mb-8"
+                    className="mb-12"
                 >
-                    <h2 className="text-section text-muted-foreground mb-6">
+                    <h2 className="text-section text-muted-foreground mb-8">
                         I create{' '}
                         <motion.span
                             className="text-primary"
@@ -253,20 +253,26 @@ const Hero = () => {
                 {/* Description */}
                 <motion.p
                     variants={itemVariants}
-                    className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
+                    className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+                    style={{ marginBottom: '4rem' }}
                 >
                     Crafting beautiful, performant, and user-centered web applications with modern technologies and clean, maintainable code.
                 </motion.p>
 
                 {/* Enhanced CTA Buttons */}
-                {/* Enhanced CTA Buttons */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex flex-col sm:flex-row gap-6 justify-center items-center mb-15 mt-14"
+                    className="flex flex-col sm:flex-row justify-center items-center"
+                    style={{
+                        gap: '2rem',
+                        marginBottom: '5rem',
+                        marginTop: '4rem'
+                    }}
                 >
                     {/* Primary Button with Magic Effect */}
                     <motion.button
-                        className="group relative px-8 py-4 bg-primary text-primary-foreground rounded-full font-semibold text-lg overflow-hidden border border-primary/20"
+                        className="group relative bg-primary text-primary-foreground rounded-full font-medium text-sm overflow-hidden border border-primary/20"
+                        style={{ padding: '0.5rem 1.2rem' }}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -302,7 +308,8 @@ const Hero = () => {
 
                     {/* Secondary Button with Morphing Border */}
                     <motion.button
-                        className="group relative px-8 py-4 bg-transparent text-primary rounded-full font-semibold text-lg overflow-hidden"
+                        className="group relative bg-transparent text-primary rounded-full font-medium text-sm overflow-hidden"
+                        style={{ padding: '0.5rem 1.2rem' }}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -330,7 +337,8 @@ const Hero = () => {
                 {/* Enhanced Social Links */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex justify-center gap-6"
+                    className="flex justify-center"
+                    style={{ gap: '2rem' }}
                 >
                     {[
                         { icon: Github, href: "#", label: "GitHub", color: "hover:text-white hover:bg-black" },

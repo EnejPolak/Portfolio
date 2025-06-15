@@ -8,7 +8,7 @@ const Projects = () => {
     const projectsRef = useRef<HTMLDivElement>(null)
     const cardsRefs = useRef<(HTMLDivElement | null)[]>([])
     const titleInView = useInView(containerRef, { once: true, amount: 0.3 })
-    const projectsInView = useInView(projectsRef, { once: true, amount: 0.2 })
+    const projectsInView = useInView(projectsRef, { once: true, amount: 0.1 })
     const [hoveredProject, setHoveredProject] = useState<number | null>(null)
 
     const projectsData = [
@@ -98,7 +98,7 @@ const Projects = () => {
         }
     ]
 
-    // GSAP-style animations using Framer Motion (simulating GSAP timeline)
+    // GSAP-style animations using Framer Motion
     useEffect(() => {
         if (projectsInView && cardsRefs.current) {
             cardsRefs.current.forEach((card, index) => {
@@ -138,7 +138,8 @@ const Projects = () => {
             {/* Title Section */}
             <section
                 ref={containerRef}
-                className="relative min-h-screen flex items-center justify-center bg-black overflow-hidden"
+                className="relative h-auto flex items-center justify-center bg-black overflow-hidden"
+                style={{ paddingTop: '3rem', paddingBottom: '2rem' }}
             >
                 {/* Background Stars */}
                 <div className="absolute inset-0">
@@ -272,7 +273,7 @@ const Projects = () => {
             </section>
 
             {/* Projects Gallery Section */}
-            <section ref={projectsRef} className="relative py-20 bg-black overflow-hidden">
+            <section ref={projectsRef} className="relative bg-black overflow-hidden">
                 {/* Background Stars */}
                 <div className="absolute inset-0">
                     {Array.from({ length: 60 }).map((_, i) => (
@@ -317,24 +318,42 @@ const Projects = () => {
                 </div>
 
                 <div className="container mx-auto px-4 relative z-10">
-                    <div className="max-w-7xl mx-auto" style={{ perspective: '1200px' }}>
+                    <div
+                        className="max-w-7xl mx-auto"
+                        style={{
+                            paddingTop: '2rem',
+                            paddingBottom: '4rem',
+                            perspective: '1200px'
+                        }}
+                    >
                         {/* First Row - 3 projects */}
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-16">
+                        <div
+                            className="grid grid-cols-1 md:grid-cols-3 mx-auto"
+                            style={{
+                                gap: '3rem',
+                                marginBottom: '4rem',
+                                maxWidth: '1200px',
+                                justifyItems: 'center'
+                            }}
+                        >
                             {projectsData.slice(0, 3).map((project, index) => (
                                 <div
                                     key={project.name}
                                     ref={(el) => { cardsRefs.current[index] = el }}
-                                    className="cursor-pointer w-80 h-96 mx-auto"
+                                    className="cursor-pointer"
                                     onMouseEnter={(e) => handleMouseEnter(index, e.currentTarget)}
                                     onMouseLeave={(e) => handleMouseLeave(index, e.currentTarget)}
                                     style={{
+                                        width: '288px',
+                                        height: '320px',
                                         transformStyle: 'preserve-3d',
                                         transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
                                         opacity: 0
                                     }}
                                 >
                                     <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                        <div className="relative h-48 overflow-hidden">
+                                        {/* Slika - zmanjšana višina */}
+                                        <div className="relative h-40 overflow-hidden">
                                             <img
                                                 src={project.image}
                                                 alt={project.name}
@@ -345,17 +364,19 @@ const Projects = () => {
                                             />
                                         </div>
 
-                                        <div className="p-6 h-48 flex flex-col justify-between">
+                                        {/* Vsebina - zmanjšana višina */}
+                                        <div className="p-5 h-40 flex flex-col justify-between">
                                             <div>
-                                                <h3 className="text-xl font-semibold text-white mb-2">{project.name}</h3>
-                                                <p className="text-purple-300 text-sm mb-4">{project.category}</p>
+                                                <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
+                                                <p className="text-purple-300 text-sm mb-3">{project.category}</p>
                                             </div>
 
-                                            <div className="flex justify-center gap-3">
-                                                {project.techIcons.map((icon, i) => (
+                                            {/* Tech ikone */}
+                                            <div className="flex justify-center gap-2">
+                                                {project.techIcons.map((icon: string, i: number) => (
                                                     <div
                                                         key={i}
-                                                        className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                        className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
                                                         style={{
                                                             transform: hoveredProject === index ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                             transitionDelay: hoveredProject === index ? `${i * 50}ms` : '0ms'
@@ -375,180 +396,100 @@ const Projects = () => {
                             ))}
                         </div>
 
-                        {/* Second Row - 3 projects with equal spacing */}
-                        <div className="flex justify-center items-start gap-12 mb-16">
-                            {/* Left project */}
-                            <div
-                                ref={(el) => { cardsRefs.current[3] = el }}
-                                className="cursor-pointer w-80 h-96"
-                                onMouseEnter={(e) => handleMouseEnter(3, e.currentTarget)}
-                                onMouseLeave={(e) => handleMouseLeave(3, e.currentTarget)}
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
-                                    opacity: 0
-                                }}
-                            >
-                                <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                    <div className="relative h-48 overflow-hidden">
-                                        <img
-                                            src={projectsData[3].image}
-                                            alt={projectsData[3].name}
-                                            className="w-full h-full object-cover transition-transform duration-700"
-                                            style={{
-                                                transform: hoveredProject === 3 ? 'scale(1.1)' : 'scale(1)'
-                                            }}
-                                        />
-                                    </div>
-
-                                    <div className="p-6 h-48 flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-xl font-semibold text-white mb-2">{projectsData[3].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-4">{projectsData[3].category}</p>
-                                        </div>
-
-                                        <div className="flex justify-center gap-3">
-                                            {projectsData[3].techIcons.map((icon, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                        {/* Second Row - 3 projects */}
+                        <div
+                            className="grid grid-cols-1 md:grid-cols-3 mx-auto"
+                            style={{
+                                gap: '3rem',
+                                marginBottom: '4rem',
+                                maxWidth: '1200px',
+                                justifyItems: 'center'
+                            }}
+                        >
+                            {projectsData.slice(3, 6).map((project, index) => {
+                                const realIndex = index + 3;
+                                return (
+                                    <div
+                                        key={project.name}
+                                        ref={(el) => { cardsRefs.current[realIndex] = el }}
+                                        className="cursor-pointer"
+                                        onMouseEnter={(e) => handleMouseEnter(realIndex, e.currentTarget)}
+                                        onMouseLeave={(e) => handleMouseLeave(realIndex, e.currentTarget)}
+                                        style={{
+                                            width: '288px',
+                                            height: '320px',
+                                            transformStyle: 'preserve-3d',
+                                            transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
+                                            opacity: 0
+                                        }}
+                                    >
+                                        <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
+                                            {/* Slika - zmanjšana višina */}
+                                            <div className="relative h-40 overflow-hidden">
+                                                <img
+                                                    src={project.image}
+                                                    alt={project.name}
+                                                    className="w-full h-full object-cover transition-transform duration-700"
                                                     style={{
-                                                        transform: hoveredProject === 3 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
-                                                        transitionDelay: hoveredProject === 3 ? `${i * 50}ms` : '0ms'
+                                                        transform: hoveredProject === realIndex ? 'scale(1.1)' : 'scale(1)'
                                                     }}
-                                                >
-                                                    <img
-                                                        src={icon}
-                                                        alt={projectsData[3].technologies[i]}
-                                                        className="w-full h-full object-contain"
-                                                    />
+                                                />
+                                            </div>
+
+                                            {/* Vsebina - zmanjšana višina */}
+                                            <div className="p-5 h-40 flex flex-col justify-between">
+                                                <div>
+                                                    <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
+                                                    <p className="text-purple-300 text-sm mb-3">{project.category}</p>
                                                 </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            {/* Center project */}
-                            <div
-                                ref={(el) => { cardsRefs.current[4] = el }}
-                                className="cursor-pointer w-80 h-96 mx-12"
-                                onMouseEnter={(e) => handleMouseEnter(4, e.currentTarget)}
-                                onMouseLeave={(e) => handleMouseLeave(4, e.currentTarget)}
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
-                                    opacity: 0
-                                }}
-                            >
-                                <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                    <div className="relative h-48 overflow-hidden">
-                                        <img
-                                            src={projectsData[4].image}
-                                            alt={projectsData[4].name}
-                                            className="w-full h-full object-cover transition-transform duration-700"
-                                            style={{
-                                                transform: hoveredProject === 4 ? 'scale(1.1)' : 'scale(1)'
-                                            }}
-                                        />
-                                    </div>
-
-                                    <div className="p-6 h-48 flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-xl font-semibold text-white mb-2">{projectsData[4].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-4">{projectsData[4].category}</p>
-                                        </div>
-
-                                        <div className="flex justify-center gap-3">
-                                            {projectsData[4].techIcons.map((icon, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
-                                                    style={{
-                                                        transform: hoveredProject === 4 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
-                                                        transitionDelay: hoveredProject === 4 ? `${i * 50}ms` : '0ms'
-                                                    }}
-                                                >
-                                                    <img
-                                                        src={icon}
-                                                        alt={projectsData[4].technologies[i]}
-                                                        className="w-full h-full object-contain"
-                                                    />
+                                                {/* Tech ikone */}
+                                                <div className="flex justify-center gap-2">
+                                                    {project.techIcons.map((icon: string, i: number) => (
+                                                        <div
+                                                            key={i}
+                                                            className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                            style={{
+                                                                transform: hoveredProject === realIndex ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
+                                                                transitionDelay: hoveredProject === realIndex ? `${i * 50}ms` : '0ms'
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={icon}
+                                                                alt={project.technologies[i]}
+                                                                className="w-full h-full object-contain"
+                                                            />
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                            ))}
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            {/* Right project */}
-                            <div
-                                ref={(el) => { cardsRefs.current[5] = el }}
-                                className="cursor-pointer w-80 h-96"
-                                onMouseEnter={(e) => handleMouseEnter(5, e.currentTarget)}
-                                onMouseLeave={(e) => handleMouseLeave(5, e.currentTarget)}
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
-                                    opacity: 0
-                                }}
-                            >
-                                <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                    <div className="relative h-48 overflow-hidden">
-                                        <img
-                                            src={projectsData[5].image}
-                                            alt={projectsData[5].name}
-                                            className="w-full h-full object-cover transition-transform duration-700"
-                                            style={{
-                                                transform: hoveredProject === 5 ? 'scale(1.1)' : 'scale(1)'
-                                            }}
-                                        />
-                                    </div>
-
-                                    <div className="p-6 h-48 flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-xl font-semibold text-white mb-2">{projectsData[5].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-4">{projectsData[5].category}</p>
-                                        </div>
-
-                                        <div className="flex justify-center gap-3">
-                                            {projectsData[5].techIcons.map((icon, i) => (
-                                                <div
-                                                    key={i}
-                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
-                                                    style={{
-                                                        transform: hoveredProject === 5 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
-                                                        transitionDelay: hoveredProject === 5 ? `${i * 50}ms` : '0ms'
-                                                    }}
-                                                >
-                                                    <img
-                                                        src={icon}
-                                                        alt={projectsData[5].technologies[i]}
-                                                        className="w-full h-full object-contain"
-                                                    />
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                )
+                            })}
                         </div>
 
                         {/* Third Row - 1 project centered */}
-                        <div className="flex justify-center mt-24">
+                        <div
+                            className="flex justify-center"
+                            style={{ maxWidth: '1200px', margin: '0 auto' }}
+                        >
                             <div
                                 ref={(el) => { cardsRefs.current[6] = el }}
-                                className="cursor-pointer w-80 h-96"
+                                className="cursor-pointer"
                                 onMouseEnter={(e) => handleMouseEnter(6, e.currentTarget)}
                                 onMouseLeave={(e) => handleMouseLeave(6, e.currentTarget)}
                                 style={{
+                                    width: '288px',
+                                    height: '320px',
                                     transformStyle: 'preserve-3d',
                                     transform: 'translateY(120px) rotateX(45deg) scale(0.8)',
                                     opacity: 0
                                 }}
                             >
                                 <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
-                                    <div className="relative h-48 overflow-hidden">
+                                    {/* Slika - zmanjšana višina */}
+                                    <div className="relative h-40 overflow-hidden">
                                         <img
                                             src={projectsData[6].image}
                                             alt={projectsData[6].name}
@@ -559,17 +500,19 @@ const Projects = () => {
                                         />
                                     </div>
 
-                                    <div className="p-6 h-48 flex flex-col justify-between">
+                                    {/* Vsebina - zmanjšana višina */}
+                                    <div className="p-5 h-40 flex flex-col justify-between">
                                         <div>
-                                            <h3 className="text-xl font-semibold text-white mb-2">{projectsData[6].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-4">{projectsData[6].category}</p>
+                                            <h3 className="text-lg font-semibold text-white mb-2">{projectsData[6].name}</h3>
+                                            <p className="text-purple-300 text-sm mb-3">{projectsData[6].category}</p>
                                         </div>
 
-                                        <div className="flex justify-center gap-3">
-                                            {projectsData[6].techIcons.map((icon, i) => (
+                                        {/* Tech ikone */}
+                                        <div className="flex justify-center gap-2">
+                                            {projectsData[6].techIcons.map((icon: string, i: number) => (
                                                 <div
                                                     key={i}
-                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                    className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
                                                     style={{
                                                         transform: hoveredProject === 6 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                         transitionDelay: hoveredProject === 6 ? `${i * 50}ms` : '0ms'

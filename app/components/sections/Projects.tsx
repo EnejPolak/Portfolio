@@ -3,11 +3,13 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
+import { gsap } from 'gsap'
 
 const Projects = () => {
     const containerRef = useRef<HTMLDivElement>(null)
     const projectsRef = useRef<HTMLDivElement>(null)
     const cardsRefs = useRef<(HTMLDivElement | null)[]>([])
+    const canvasRef = useRef<HTMLCanvasElement>(null)
     const titleInView = useInView(containerRef, { once: true, amount: 0.3 })
     const projectsInView = useInView(projectsRef, { once: true, amount: 0.1 })
     const [hoveredProject, setHoveredProject] = useState<number | null>(null)
@@ -119,12 +121,230 @@ const Projects = () => {
         }
     }, [projectsInView])
 
+    // Interactive Topographic Canvas Animation
+    useEffect(() => {
+        const canvas = canvasRef.current
+        if (!canvas) return
+
+        const ctx = canvas.getContext('2d')
+        if (!ctx) return
+
+        // Configuration options for topography
+        const config = {
+            linesCount: 40,
+            baseAmplitude: 50,
+            interactionRadius: 150,
+            interactionStrength: 30,
+            lineWidth: 1.8,
+            speed: 0.003,
+            elasticity: 0.012,
+            flowSpeed: 0.8,
+            damping: 0.99
+        }
+
+        let time = 0
+        let animationId: number
+
+        // Set canvas dimensions
+        const resizeCanvas = () => {
+            canvas.width = canvas.offsetWidth
+            canvas.height = canvas.offsetHeight
+        }
+
+        // Track mouse position and movement
+        let mouseX = 0
+        let mouseY = 0
+        let lastMouseX = -1
+        let lastMouseY = -1
+        let mouseOnCanvas = false
+        let isMoving = false
+        let moveTimeout: NodeJS.Timeout | null = null
+        let lastInteractionTime = 0
+
+        // Track state for each line with flow properties
+        const linesState: Array<{
+            baseY: number
+            flowCenter: number | null
+            flowStartTime: number
+            flowStrength: number
+            currentOffset: number
+            targetOffset: number
+            velocity: number
+        }> = []
+
+        // Initialize the line states
+        const initLines = () => {
+            linesState.length = 0
+            
+            for (let i = 0; i < config.linesCount; i++) {
+                const baseY = canvas.height / (config.linesCount - 1) * i
+                
+                linesState.push({
+                    baseY: baseY,
+                    flowCenter: null,
+                    flowStartTime: 0,
+                    flowStrength: 0,
+                    currentOffset: 0,
+                    targetOffset: 0,
+                    velocity: 0
+                })
+            }
+        }
+
+        // Initialize
+        resizeCanvas()
+        initLines()
+        
+        console.log('Canvas initialized:', canvas.width, canvas.height)
+        console.log('Lines count:', linesState.length)
+
+        // Throttled mouse movement handling
+        let lastInteractionX = 0
+        let lastInteractionY = 0
+        let movementAccumulator = 0
+
+        // Mouse event handlers
+        const handleMouseMove = (e: MouseEvent) => {
+            // For fixed positioned canvas, use clientX/Y directly
+            mouseX = e.clientX
+            mouseY = e.clientY
+            mouseOnCanvas = true
+            
+            console.log('Mouse move:', mouseX, mouseY) // Debug
+            
+            // Always create interaction effects when mouse moves
+            const now = performance.now()
+            
+            // Check which lines are within interaction range and create effects
+            for (let i = 0; i < linesState.length; i++) {
+                const line = linesState[i]
+                
+                const dy = line.baseY - mouseY
+                const distance = Math.abs(dy)
+                
+                if (distance < config.interactionRadius) {
+                    const effect = (1 - distance / config.interactionRadius) * config.interactionStrength
+                    
+                    line.flowCenter = mouseX
+                    line.flowStartTime = now
+                    line.flowStrength = effect
+                    
+                    console.log('Creating effect for line', i, 'with strength', effect) // Debug
+                }
+            }
+            
+            lastMouseX = mouseX
+            lastMouseY = mouseY
+        }
+
+        const handleMouseOut = () => {
+            mouseOnCanvas = false
+        }
+
+        // Create more realistic topography noise
+        const noise = (x: number, y: number, time: number) => {
+            const layer1 = Math.sin(x * 0.008 + time) * Math.cos(y * 0.008 + time * 0.7)
+            const layer2 = Math.sin(x * 0.02 + time * 0.5) * Math.cos(y * 0.02 + time * 0.3) * 0.5
+            const layer3 = Math.sin(x * 0.05 + time * 0.2) * Math.cos(y * 0.05 + time * 0.1) * 0.25
+            
+            return layer1 + layer2 + layer3
+        }
+
+        // Calculate flow effect at a specific point
+        const calculateFlowEffect = (line: typeof linesState[0], x: number, now: number) => {
+            if (!line.flowCenter || now - line.flowStartTime > 6000) {
+                return 0
+            }
+            
+            const distance = Math.abs(x - line.flowCenter)
+            const flowTime = now - line.flowStartTime
+            const flowRadius = flowTime * config.flowSpeed
+            const flowDist = Math.abs(distance - flowRadius)
+            
+            if (flowDist < 200) {
+                const effect = line.flowStrength * Math.cos(flowDist * 0.015) * (1 - flowDist / 200)
+                return effect
+            }
+            
+            return 0
+        }
+
+        // Soft, muted white and gray tones - less contrasting
+        const colors = ['#f5f5f5', '#eeeeee', '#e7e7e7', '#e0e0e0', '#d9d9d9']
+
+        // Animation loop
+        const animate = () => {
+            const now = performance.now()
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            
+            for (let i = 0; i < linesState.length; i++) {
+                const line = linesState[i]
+                
+                ctx.beginPath()
+                
+                // Set topographic color based on elevation
+                const colorPosition = i / config.linesCount
+                let colorIndex = Math.floor(colorPosition * colors.length)
+                if (colorIndex >= colors.length) colorIndex = colors.length - 1
+                
+                ctx.strokeStyle = colors[colorIndex]
+                ctx.lineWidth = config.lineWidth
+                
+                for (let x = 0; x <= canvas.width; x += 3) {
+                    const terrainFrequency = 0.3 + (i / config.linesCount) * 0.7
+                    
+                    const naturalY = line.baseY + 
+                                   (noise(x * terrainFrequency, line.baseY * terrainFrequency, time) * 
+                                   config.baseAmplitude)
+                    
+                    const flowEffect = calculateFlowEffect(line, x, now)
+                    const y = naturalY + flowEffect
+                    
+                    if (x === 0) {
+                        ctx.moveTo(x, y)
+                    } else {
+                        ctx.lineTo(x, y)
+                    }
+                }
+                
+                ctx.stroke()
+            }
+            
+            time += config.speed
+            animationId = requestAnimationFrame(animate)
+        }
+
+        // Add event listeners
+        document.addEventListener('mousemove', handleMouseMove)
+        canvas.addEventListener('mouseout', handleMouseOut)
+        window.addEventListener('resize', () => {
+            resizeCanvas()
+            initLines()
+        })
+
+        // Start animation
+        animate()
+
+        // Cleanup
+        return () => {
+            if (animationId) {
+                cancelAnimationFrame(animationId)
+            }
+            document.removeEventListener('mousemove', handleMouseMove)
+            canvas.removeEventListener('mouseout', handleMouseOut)
+            if (moveTimeout) {
+                clearTimeout(moveTimeout)
+            }
+        }
+    }, [])
+
     const handleMouseEnter = (index: number, card: HTMLDivElement) => {
         setHoveredProject(index)
         // GSAP-style 3D hover effect
         card.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
         card.style.transform = `translateY(-20px) scale(1.05) rotateX(-8deg) rotateY(${index % 3 === 0 ? '8deg' : index % 3 === 2 ? '-8deg' : '0deg'}) translateZ(50px)`
-        card.style.boxShadow = '0 25px 50px -12px rgba(147, 51, 234, 0.25), 0 0 30px rgba(147, 51, 234, 0.1)'
+        card.style.boxShadow = '0 25px 50px -12px rgba(255, 255, 255, 0.25), 0 0 30px rgba(255, 255, 255, 0.15)'
     }
 
     const handleMouseLeave = (index: number, card: HTMLDivElement) => {
@@ -136,55 +356,29 @@ const Projects = () => {
 
     return (
         <div style={{ perspective: '1000px' }}>
+            {/* Interactive Topographic Canvas Background */}
+            <canvas
+                ref={canvasRef}
+                className="absolute inset-0 w-full h-full pointer-events-auto"
+                style={{
+                    zIndex: 0,
+                    background: '#111',
+                    position: 'fixed',
+                    top: 0,
+                    left: 0
+                }}
+            />
+
             {/* Title Section */}
             <section
                 ref={containerRef}
-                className="relative h-auto flex items-center justify-center bg-black overflow-hidden"
-                style={{ paddingTop: '3rem', paddingBottom: '2rem' }}
+                className="relative h-auto flex items-center justify-center overflow-hidden"
+                style={{ 
+                    paddingTop: '3rem', 
+                    paddingBottom: '2rem',
+                    zIndex: 10
+                }}
             >
-                {/* Background Stars */}
-                <div className="absolute inset-0">
-                    {Array.from({ length: 60 }).map((_, i) => (
-                        <motion.div
-                            key={i}
-                            className="absolute w-0.5 h-0.5 bg-white/40 rounded-full"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                opacity: [0.3, 1, 0.3],
-                                scale: [0.5, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: Math.random() * 3 + 2,
-                                repeat: Infinity,
-                                delay: Math.random() * 5,
-                            }}
-                        />
-                    ))}
-
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <motion.div
-                            key={`title-accent-${i}`}
-                            className="absolute w-1 h-1 bg-purple-400/60 rounded-full"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                opacity: [0.2, 0.8, 0.2],
-                                scale: [0.8, 1.5, 0.8],
-                            }}
-                            transition={{
-                                duration: Math.random() * 4 + 3,
-                                repeat: Infinity,
-                                delay: Math.random() * 3,
-                            }}
-                        />
-                    ))}
-                </div>
-
                 {/* Main Title */}
                 <div className="relative z-10 text-center">
                     <motion.h1
@@ -246,78 +440,11 @@ const Projects = () => {
                             ease: "easeOut"
                         }}
                     />
-
-                    <div className="absolute inset-0 pointer-events-none">
-                        {Array.from({ length: 8 }).map((_, i) => (
-                            <motion.div
-                                key={i}
-                                className="absolute w-2 h-2 bg-purple-400/30 rounded-full"
-                                style={{
-                                    left: `${Math.random() * 100}%`,
-                                    top: `${Math.random() * 100}%`,
-                                }}
-                                animate={{
-                                    y: [0, -30, 0],
-                                    opacity: [0.3, 1, 0.3],
-                                    scale: [1, 1.5, 1],
-                                }}
-                                transition={{
-                                    duration: 3 + Math.random() * 2,
-                                    repeat: Infinity,
-                                    delay: Math.random() * 3,
-                                    ease: "easeInOut"
-                                }}
-                            />
-                        ))}
-                    </div>
                 </div>
             </section>
 
             {/* Projects Gallery Section */}
-            <section ref={projectsRef} className="relative bg-black overflow-hidden">
-                {/* Background Stars */}
-                <div className="absolute inset-0">
-                    {Array.from({ length: 60 }).map((_, i) => (
-                        <motion.div
-                            key={`projects-star-${i}`}
-                            className="absolute w-0.5 h-0.5 bg-white/40 rounded-full"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                opacity: [0.3, 1, 0.3],
-                                scale: [0.5, 1, 0.5],
-                            }}
-                            transition={{
-                                duration: Math.random() * 3 + 2,
-                                repeat: Infinity,
-                                delay: Math.random() * 5,
-                            }}
-                        />
-                    ))}
-
-                    {Array.from({ length: 10 }).map((_, i) => (
-                        <motion.div
-                            key={`projects-accent-${i}`}
-                            className="absolute w-1 h-1 bg-purple-400/60 rounded-full"
-                            style={{
-                                left: `${Math.random() * 100}%`,
-                                top: `${Math.random() * 100}%`,
-                            }}
-                            animate={{
-                                opacity: [0.2, 0.8, 0.2],
-                                scale: [0.8, 1.5, 0.8],
-                            }}
-                            transition={{
-                                duration: Math.random() * 4 + 3,
-                                repeat: Infinity,
-                                delay: Math.random() * 3,
-                            }}
-                        />
-                    ))}
-                </div>
-
+            <section ref={projectsRef} className="relative overflow-hidden" style={{ zIndex: 10 }}>
                 <div className="mx-auto px-4 relative z-10">
                     <div
                         className="w-full flex flex-col items-center"
@@ -351,7 +478,7 @@ const Projects = () => {
                                         opacity: 0
                                     }}
                                 >
-                                    <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
+                                    <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                         <div className="relative h-40 overflow-hidden">
                                             <img
                                                 src={project.image}
@@ -363,17 +490,17 @@ const Projects = () => {
                                             />
                                         </div>
 
-                                        <div className="px-6 py-5 h-40 flex flex-col justify-between">
-                                            <div>
-                                                <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
-                                                <p className="text-purple-300 text-sm mb-3">{project.category}</p>
+                                        <div className="px-6 py-5 h-40 flex flex-col">
+                                            <div className="text-center">
+                                                <h3 className="text-2xl font-semibold text-white mb-2">{project.name}</h3>
+                                                <p className="text-purple-300 text-sm mb-4">{project.category}</p>
                                             </div>
 
-                                            <div className="flex justify-center gap-2 mb-3">
+                                            <div className="flex justify-center gap-2 mt-6">
                                                 {project.techIcons.map((icon: string, i: number) => (
                                                     <div
                                                         key={i}
-                                                        className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                        className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
                                                         style={{
                                                             transform: hoveredProject === index ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                             transitionDelay: hoveredProject === index ? `${i * 50}ms` : '0ms'
@@ -419,7 +546,7 @@ const Projects = () => {
                                             opacity: 0
                                         }}
                                     >
-                                        <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
+                                        <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                             <div className="relative h-40 overflow-hidden">
                                                 <img
                                                     src={project.image}
@@ -431,17 +558,17 @@ const Projects = () => {
                                                 />
                                             </div>
 
-                                            <div className="p-5 h-40 flex flex-col justify-between">
-                                                <div>
-                                                    <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
-                                                    <p className="text-purple-300 text-sm mb-3">{project.category}</p>
+                                            <div className="px-6 py-5 h-40 flex flex-col">
+                                                <div className="text-center">
+                                                    <h3 className="text-2xl font-semibold text-white mb-2">{project.name}</h3>
+                                                    <p className="text-purple-300 text-sm mb-4">{project.category}</p>
                                                 </div>
 
-                                                <div className="flex justify-center gap-2">
+                                                <div className="flex justify-center gap-2 mt-6">
                                                     {project.techIcons.map((icon: string, i: number) => (
                                                         <div
                                                             key={i}
-                                                            className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                            className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
                                                             style={{
                                                                 transform: hoveredProject === realIndex ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                                 transitionDelay: hoveredProject === realIndex ? `${i * 50}ms` : '0ms'
@@ -477,7 +604,7 @@ const Projects = () => {
                                     opacity: 0
                                 }}
                             >
-                                <div className="relative bg-gray-900/90 rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full">
+                                <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                     <div className="relative h-40 overflow-hidden">
                                         <img
                                             src={projectsData[6].image}
@@ -489,17 +616,17 @@ const Projects = () => {
                                         />
                                     </div>
 
-                                    <div className="p-5 h-40 flex flex-col justify-between">
-                                        <div>
-                                            <h3 className="text-lg font-semibold text-white mb-2">{projectsData[6].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-3">{projectsData[6].category}</p>
+                                    <div className="px-6 py-5 h-40 flex flex-col">
+                                        <div className="text-center">
+                                            <h3 className="text-2xl font-semibold text-white mb-2">{projectsData[6].name}</h3>
+                                            <p className="text-purple-300 text-sm mb-4">{projectsData[6].category}</p>
                                         </div>
 
-                                        <div className="flex justify-center gap-2">
+                                        <div className="flex justify-center gap-2 mt-6">
                                             {projectsData[6].techIcons.map((icon: string, i: number) => (
                                                 <div
                                                     key={i}
-                                                    className="w-8 h-8 p-1.5 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
                                                     style={{
                                                         transform: hoveredProject === 6 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                         transitionDelay: hoveredProject === 6 ? `${i * 50}ms` : '0ms'

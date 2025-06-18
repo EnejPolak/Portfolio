@@ -1,6 +1,5 @@
 import Hero from './components/sections/Hero'
 import Projects from './components/sections/Projects'
-import CustomCursor from './components/ui/CustomCursor'
 import FloatingCards from './components/3d/FloatingCard'
 import Skills from './components/sections/Skills'
 
@@ -8,7 +7,6 @@ export default function Home() {
     return (
         // <SmoothScrolling>
         <main className="relative">
-            <CustomCursor />
             {/* <Navigation /> */}
 
             <section id="home">

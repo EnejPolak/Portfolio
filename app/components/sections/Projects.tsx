@@ -1,6 +1,7 @@
 'use client'
 
-import { motion, useInView } from 'framer-motion'
+import { motion } from 'framer-motion'
+import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 const Projects = () => {
@@ -317,9 +318,9 @@ const Projects = () => {
                     ))}
                 </div>
 
-                <div className="container mx-auto px-4 relative z-10">
+                <div className="mx-auto px-4 relative z-10">
                     <div
-                        className="max-w-7xl mx-auto"
+                        className="w-full flex flex-col items-center"
                         style={{
                             paddingTop: '2rem',
                             paddingBottom: '4rem',
@@ -328,12 +329,11 @@ const Projects = () => {
                     >
                         {/* First Row - 3 projects (1, 2, 3) */}
                         <div
-                            className="grid grid-cols-1 md:grid-cols-3 mx-auto"
+                            className="flex flex-wrap justify-center"
                             style={{
                                 gap: '3rem',
                                 marginBottom: '4rem',
-                                maxWidth: '1200px',
-                                justifyItems: 'center'
+                                maxWidth: '1200px'
                             }}
                         >
                             {projectsData.slice(0, 3).map((project, index) => (
@@ -363,13 +363,13 @@ const Projects = () => {
                                             />
                                         </div>
 
-                                        <div className="p-5 h-40 flex flex-col justify-between">
+                                        <div className="px-6 py-5 h-40 flex flex-col justify-between">
                                             <div>
                                                 <h3 className="text-lg font-semibold text-white mb-2">{project.name}</h3>
                                                 <p className="text-purple-300 text-sm mb-3">{project.category}</p>
                                             </div>
 
-                                            <div className="flex justify-center gap-2">
+                                            <div className="flex justify-center gap-2 mb-3">
                                                 {project.techIcons.map((icon: string, i: number) => (
                                                     <div
                                                         key={i}
@@ -395,12 +395,11 @@ const Projects = () => {
 
                         {/* Second Row - 3 projects (4, 5, 6) */}
                         <div
-                            className="grid grid-cols-1 md:grid-cols-3 mx-auto"
+                            className="flex flex-wrap justify-center"
                             style={{
                                 gap: '3rem',
                                 marginBottom: '4rem',
-                                maxWidth: '1200px',
-                                justifyItems: 'center'
+                                maxWidth: '1200px'
                             }}
                         >
                             {projectsData.slice(3, 6).map((project, index) => {
@@ -464,10 +463,7 @@ const Projects = () => {
                         </div>
 
                         {/* Third Row - 1 project centered (7) */}
-                        <div
-                            className="flex justify-center"
-                            style={{ maxWidth: '1200px', margin: '0 auto' }}
-                        >
+                        <div className="flex justify-center">
                             <div
                                 ref={(el) => { cardsRefs.current[6] = el }}
                                 className="cursor-pointer"

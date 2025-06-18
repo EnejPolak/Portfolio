@@ -32,8 +32,8 @@ const Skills = () => {
             color: "from-blue-600 via-blue-700 to-blue-800"
         },
         {
-            name: "Shopify",
-            icon: "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
+            name: "Supabase",
+            icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg",
             color: "from-green-400 via-emerald-500 to-green-600"
         }
     ]

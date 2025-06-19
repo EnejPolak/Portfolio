@@ -26,7 +26,7 @@ const ThreeBackground = () => {
         })
 
         renderer.setSize(width, height)
-        renderer.setClearColor(0x000000, 0)
+        renderer.setClearColor(0x0b0a0b, 1)
         
         console.log('Adding canvas to container...')
         container.appendChild(renderer.domElement)
@@ -42,7 +42,7 @@ const ThreeBackground = () => {
                 waveDefinition: { value: 1.5 },
                 waveAmplitude: { value: 0.17 },
                 topoDefinition: { value: 30 },
-                topoColor: { value: new THREE.Color(0.4, 0.2, 0.6) }
+                topoColor: { value: new THREE.Color(99/255, 102/255, 241/255) }
             },
             vertexShader: `
                 vec3 mod289(vec3 x) {

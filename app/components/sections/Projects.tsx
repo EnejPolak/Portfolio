@@ -277,7 +277,7 @@ const Projects = () => {
         }
 
         // Soft, muted white and gray tones - less contrasting
-                    const colors = ['#b794f6', '#9f7aea', '#8b5cf6', '#7c3aed', '#6b46c1']
+                    const colors = ['rgba(99, 102, 241, 0.6)', 'rgba(99, 102, 241, 0.5)', 'rgba(99, 102, 241, 0.4)', 'rgba(99, 102, 241, 0.3)', 'rgba(99, 102, 241, 0.2)']
 
         // Animation loop
         const animate = () => {
@@ -369,7 +369,7 @@ const Projects = () => {
                 className="absolute inset-0 w-full h-full pointer-events-auto"
                 style={{
                     zIndex: 0,
-                    background: '#000000',
+                    background: '#0b0a0b',
                     position: 'fixed',
                     top: 0,
                     left: 0

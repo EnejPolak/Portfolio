@@ -362,21 +362,24 @@ const Projects = () => {
     }
 
     return (
-        <div style={{ perspective: '1000px' }}>
-            {/* Interactive Topographic Canvas Background */}
-            <canvas
-                ref={canvasRef}
-                className="absolute inset-0 w-full h-full pointer-events-auto"
-                style={{
-                    zIndex: 0,
-                    background: '#0b0a0b',
-                    position: 'fixed',
-                    top: 0,
-                    left: 0
-                }}
-            />
+        <div className="relative min-h-screen bg-gradient-to-b from-background via-card to-background" style={{ perspective: '1000px' }}>
+            {/* Parallax Background Layer */}
+            <div className="parallax-bg">
+                {/* Interactive Topographic Canvas Background */}
+                <canvas
+                    ref={canvasRef}
+                    className="absolute inset-0 w-full h-full pointer-events-auto"
+                    style={{
+                        zIndex: 0,
+                        background: 'linear-gradient(135deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%)',
+                        opacity: 0.8
+                    }}
+                />
+            </div>
 
-            {/* Title Section */}
+            {/* Content Container with proper z-index */}
+            <div className="relative z-10">
+                {/* Title Section */}
             <section
                 ref={containerRef}
                 className="relative h-auto flex items-center justify-center overflow-hidden"
@@ -660,6 +663,7 @@ const Projects = () => {
                     </div>
                 </div>
             </section>
+            </div>
         </div>
     )
 }

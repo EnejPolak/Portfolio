@@ -19,6 +19,7 @@ const Projects = () => {
             name: "1of1",
             image: "/images/work/1of1.png",
             category: "E-commerce",
+            categoryColor: "from-emerald-400 via-cyan-500 to-blue-500",
             technologies: ["Shopify", "HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
@@ -31,6 +32,7 @@ const Projects = () => {
             name: "Cologne Room",
             image: "/images/work/cologne room.png",
             category: "E-commerce",
+            categoryColor: "from-purple-400 via-pink-500 to-red-500",
             technologies: ["Shopify", "HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
@@ -43,6 +45,7 @@ const Projects = () => {
             name: "Nirvana",
             image: "/images/work/nirvana.png",
             category: "E-commerce",
+            categoryColor: "from-indigo-400 via-purple-500 to-pink-500",
             technologies: ["Shopify", "HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
@@ -55,6 +58,7 @@ const Projects = () => {
             name: "Sweet Samples",
             image: "/images/work/sweet samples.png",
             category: "E-commerce",
+            categoryColor: "from-orange-400 via-red-500 to-pink-500",
             technologies: ["Shopify", "HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
@@ -67,6 +71,7 @@ const Projects = () => {
             name: "TM Scent",
             image: "/images/work/tm scent.png",
             category: "E-commerce",
+            categoryColor: "from-teal-400 via-green-500 to-blue-500",
             technologies: ["Shopify", "HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://www.vectorlogo.zone/logos/shopify/shopify-icon.svg",
@@ -79,6 +84,7 @@ const Projects = () => {
             name: "AK Žalec",
             image: "/images/work/ak zalec.png",
             category: "Presentation Site",
+            categoryColor: "from-yellow-400 via-orange-500 to-red-500",
             technologies: ["HTML", "CSS", "JavaScript"],
             techIcons: [
                 "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
@@ -90,6 +96,7 @@ const Projects = () => {
             name: "Schedulizer",
             image: "/images/work/schedulizer.png",
             category: "Web Application",
+            categoryColor: "from-cyan-400 via-blue-500 to-purple-600",
             technologies: ["React", "Next.js", "Tailwind CSS", "TypeScript", "GSAP"],
             techIcons: [
                 "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
@@ -270,7 +277,7 @@ const Projects = () => {
         }
 
         // Soft, muted white and gray tones - less contrasting
-        const colors = ['#f5f5f5', '#eeeeee', '#e7e7e7', '#e0e0e0', '#d9d9d9']
+                    const colors = ['#b794f6', '#9f7aea', '#8b5cf6', '#7c3aed', '#6b46c1']
 
         // Animation loop
         const animate = () => {
@@ -362,7 +369,7 @@ const Projects = () => {
                 className="absolute inset-0 w-full h-full pointer-events-auto"
                 style={{
                     zIndex: 0,
-                    background: '#111',
+                    background: '#000000',
                     position: 'fixed',
                     top: 0,
                     left: 0
@@ -493,7 +500,9 @@ const Projects = () => {
                                         <div className="px-6 py-5 h-40 flex flex-col">
                                             <div className="text-center">
                                                 <h3 className="text-2xl font-semibold text-white mb-2">{project.name}</h3>
-                                                <p className="text-purple-300 text-sm mb-4">{project.category}</p>
+                                                <p className={`text-sm mb-4 bg-gradient-to-r ${project.categoryColor} bg-clip-text text-transparent font-medium`}>
+                                                    {project.category}
+                                                </p>
                                             </div>
 
                                             <div className="flex justify-center gap-2 mt-6">
@@ -559,10 +568,12 @@ const Projects = () => {
                                             </div>
 
                                             <div className="px-6 py-5 h-40 flex flex-col">
-                                                <div className="text-center">
-                                                    <h3 className="text-2xl font-semibold text-white mb-2">{project.name}</h3>
-                                                    <p className="text-purple-300 text-sm mb-4">{project.category}</p>
-                                                </div>
+                                                                                            <div className="text-center">
+                                                <h3 className="text-2xl font-semibold text-white mb-2">{project.name}</h3>
+                                                <p className={`text-sm mb-4 bg-gradient-to-r ${project.categoryColor} bg-clip-text text-transparent font-medium`}>
+                                                    {project.category}
+                                                </p>
+                                            </div>
 
                                                 <div className="flex justify-center gap-2 mt-6">
                                                     {project.techIcons.map((icon: string, i: number) => (
@@ -619,7 +630,9 @@ const Projects = () => {
                                     <div className="px-6 py-5 h-40 flex flex-col">
                                         <div className="text-center">
                                             <h3 className="text-2xl font-semibold text-white mb-2">{projectsData[6].name}</h3>
-                                            <p className="text-purple-300 text-sm mb-4">{projectsData[6].category}</p>
+                                            <p className={`text-sm mb-4 bg-gradient-to-r ${projectsData[6].categoryColor} bg-clip-text text-transparent font-medium`}>
+                                                {projectsData[6].category}
+                                            </p>
                                         </div>
 
                                         <div className="flex justify-center gap-2 mt-6">

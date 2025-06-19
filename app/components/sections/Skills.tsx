@@ -4,6 +4,7 @@
 
 import { motion, useInView } from 'framer-motion'
 import { useRef, useEffect } from 'react'
+import ThreeBackground from '../3d/ThreeBackground'
 
 const Skills = () => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -63,76 +64,8 @@ const Skills = () => {
             ref={containerRef}
             className="relative min-h-screen py-20 bg-black overflow-hidden flex items-center justify-center"
         >
-            {/* Background Effects with Stars */}
-            <div className="absolute inset-0">
-                {/* Subtle Stars */}
-                {Array.from({ length: 50 }).map((_, i) => (
-                    <motion.div
-                        key={i}
-                        className="absolute w-0.5 h-0.5 bg-white/40 rounded-full"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                        }}
-                        animate={{
-                            opacity: [0.3, 1, 0.3],
-                            scale: [0.5, 1, 0.5],
-                        }}
-                        transition={{
-                            duration: Math.random() * 3 + 2,
-                            repeat: Infinity,
-                            delay: Math.random() * 5,
-                        }}
-                    />
-                ))}
-
-                {/* Larger accent stars */}
-                {Array.from({ length: 8 }).map((_, i) => (
-                    <motion.div
-                        key={`accent-${i}`}
-                        className="absolute w-1 h-1 bg-purple-400/60 rounded-full"
-                        style={{
-                            left: `${Math.random() * 100}%`,
-                            top: `${Math.random() * 100}%`,
-                        }}
-                        animate={{
-                            opacity: [0.2, 0.8, 0.2],
-                            scale: [0.8, 1.5, 0.8],
-                        }}
-                        transition={{
-                            duration: Math.random() * 4 + 3,
-                            repeat: Infinity,
-                            delay: Math.random() * 3,
-                        }}
-                    />
-                ))}
-
-                {/* Very subtle purple glow in corners */}
-                <motion.div
-                    className="absolute top-0 left-0 w-96 h-96 bg-purple-900/5 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1, 1.2, 1],
-                        opacity: [0.3, 0.5, 0.3],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                />
-                <motion.div
-                    className="absolute bottom-0 right-0 w-80 h-80 bg-purple-800/5 rounded-full blur-3xl"
-                    animate={{
-                        scale: [1.2, 1, 1.2],
-                        opacity: [0.2, 0.4, 0.2],
-                    }}
-                    transition={{
-                        duration: 25,
-                        repeat: Infinity,
-                        ease: "linear"
-                    }}
-                />
-            </div>
+            {/* Three.js 3D Background */}
+            <ThreeBackground />
 
             <div className="container mx-auto px-4 relative z-10">
                 {/* Section Header */}

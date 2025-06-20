@@ -1,6 +1,5 @@
 import Hero from './components/sections/Hero'
 import Projects from './components/sections/Projects'
-import FloatingCards from './components/3d/FloatingCard'
 import Skills from './components/sections/Skills'
 import PinnedScrollProvider from './components/animations/PinnedScrollProvider'
 

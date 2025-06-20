@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useRef, useEffect } from 'react'
 import { X, Download, FileText } from 'lucide-react'
 import { gsap } from 'gsap'
 

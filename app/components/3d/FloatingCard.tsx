@@ -1,5 +1,4 @@
 // @ts-nocheck
-
 'use client'
 
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
@@ -139,7 +138,7 @@ const FloatingCard = ({ children, delay = 0 }: FloatingCardProps) => {
                 <motion.div
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%]"
                     whileHover={{
-                        translateX: "200%",
+                        x: "200%",
                         transition: { duration: 0.6, ease: "easeInOut" }
                     }}
                 />

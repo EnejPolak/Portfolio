@@ -4,6 +4,10 @@ import { motion } from 'framer-motion'
 import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
+
+// Register ScrollTrigger plugin
+gsap.registerPlugin(ScrollTrigger)
 
 const Projects = () => {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -128,6 +132,74 @@ const Projects = () => {
         }
     }, [projectsInView])
 
+    // GSAP ScrollTrigger animation for section transition
+    useEffect(() => {
+        if (typeof window !== 'undefined' && containerRef.current) {
+            // Wait for DOM to be ready
+            const timer = setTimeout(() => {
+                 const projectsContent = containerRef.current
+                 const skillsSection = document.querySelector('#skills')
+                 
+                 console.log('Projects content found:', projectsContent)
+                 console.log('Skills section found:', skillsSection)
+                 
+                 if (projectsContent && skillsSection) {
+                    // Initially position skills section off-screen to the right
+                    gsap.set(skillsSection, { 
+                        x: '100%', 
+                        zIndex: 11,
+                        position: 'fixed',
+                        top: 0,
+                        left: 0,
+                        width: '100vw',
+                        height: '100vh'
+                    })
+                    
+                     // Create the scroll trigger animation
+                     ScrollTrigger.create({
+                         trigger: projectsContent.parentElement, // Trigger based on the whole section
+                         start: "bottom bottom",
+                         end: "bottom top",
+                         scrub: 1,
+                         markers: true, // Debug markers
+                         onUpdate: (self) => {
+                             const progress = self.progress
+                             console.log('ScrollTrigger progress:', progress) // Debug
+                             
+                             // Move projects section to the left
+                             gsap.set(projectsContent, {
+                                 x: -window.innerWidth * progress
+                             })
+                             
+                             // Move skills section from right to center
+                             gsap.set(skillsSection, {
+                                 x: window.innerWidth * (1 - progress)
+                             })
+                         },
+                         onEnter: () => console.log('ScrollTrigger entered'),
+                         onLeave: () => console.log('ScrollTrigger left'),
+                         onRefresh: () => {
+                             console.log('ScrollTrigger refreshed')
+                             // Reset positions when refreshing
+                             gsap.set(projectsContent, { x: 0 })
+                             gsap.set(skillsSection, { x: '100%' })
+                         }
+                     })
+                }
+            }, 100)
+            
+            // Cleanup function
+            return () => {
+                clearTimeout(timer)
+                ScrollTrigger.getAll().forEach(trigger => {
+                    if (trigger.vars.trigger === containerRef.current?.parentElement) {
+                        trigger.kill()
+                    }
+                })
+            }
+        }
+    }, [])
+
     // Interactive Topographic Canvas Animation
     useEffect(() => {
         const canvas = canvasRef.current
@@ -154,8 +226,14 @@ const Projects = () => {
 
         // Set canvas dimensions
         const resizeCanvas = () => {
-            canvas.width = canvas.offsetWidth
-            canvas.height = canvas.offsetHeight
+            const parent = canvas.parentElement
+            if (parent) {
+                canvas.width = parent.offsetWidth
+                canvas.height = Math.max(parent.offsetHeight, window.innerHeight) + 100
+            } else {
+                canvas.width = canvas.offsetWidth
+                canvas.height = Math.max(canvas.offsetHeight, window.innerHeight) + 100
+            }
         }
 
         // Track mouse position and movement
@@ -362,9 +440,14 @@ const Projects = () => {
     }
 
     return (
-        <div className="relative min-h-screen bg-gradient-to-b from-background via-card to-background" style={{ perspective: '1000px' }}>
+        <div className="relative" style={{ 
+            perspective: '1000px',
+            background: 'linear-gradient(135deg, #000000 0%, #111111 50%, #000000 100%)',
+            minHeight: '100vh',
+            overflow: 'hidden'
+        }}>
             {/* Parallax Background Layer */}
-            <div className="parallax-bg">
+            <div className="parallax-bg absolute inset-0 w-full h-full">
                 {/* Interactive Topographic Canvas Background */}
                 <canvas
                     ref={canvasRef}
@@ -372,20 +455,20 @@ const Projects = () => {
                     style={{
                         zIndex: 0,
                         background: 'linear-gradient(135deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%)',
-                        opacity: 0.8
+                        opacity: 0.8,
+                        minHeight: '100%'
                     }}
                 />
             </div>
 
             {/* Content Container with proper z-index */}
-            <div className="relative z-10">
+            <div ref={containerRef} className="relative z-10">
                 {/* Title Section */}
             <section
-                ref={containerRef}
                 className="relative h-auto flex items-center justify-center overflow-hidden"
                 style={{ 
-                    paddingTop: '3rem', 
-                    paddingBottom: '2rem',
+                    paddingTop: '1.5rem', 
+                    paddingBottom: '1rem',
                     zIndex: 10
                 }}
             >
@@ -441,7 +524,7 @@ const Projects = () => {
                     </motion.h1>
 
                     <motion.div
-                        className="mt-8 mx-auto bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 h-0.5"
+                        className="mt-4 mx-auto bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 h-0.5"
                         initial={{ width: 0, opacity: 0 }}
                         animate={titleInView ? { width: "200px", opacity: 1 } : {}}
                         transition={{
@@ -459,8 +542,8 @@ const Projects = () => {
                     <div
                         className="w-full flex flex-col items-center"
                         style={{
-                            paddingTop: '2rem',
-                            paddingBottom: '4rem',
+                            paddingTop: '1rem',
+                            paddingBottom: '5rem',
                             perspective: '1200px'
                         }}
                     >
@@ -468,8 +551,8 @@ const Projects = () => {
                         <div
                             className="flex flex-wrap justify-center"
                             style={{
-                                gap: '3rem',
-                                marginBottom: '4rem',
+                                gap: '2rem',
+                                marginBottom: '2rem',
                                 maxWidth: '1200px'
                             }}
                         >
@@ -536,8 +619,8 @@ const Projects = () => {
                         <div
                             className="flex flex-wrap justify-center"
                             style={{
-                                gap: '3rem',
-                                marginBottom: '4rem',
+                                gap: '2rem',
+                                marginBottom: '1.5rem',
                                 maxWidth: '1200px'
                             }}
                         >

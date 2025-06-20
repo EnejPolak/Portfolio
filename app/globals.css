@@ -338,3 +338,82 @@ a[href], button:not(:disabled) {
 .scroll-overlay-container::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(180deg, var(--accent), var(--primary));
 }
+
+/* Pinned Scrolling Styles */
+.pinned-container {
+  position: relative;
+  height: auto;
+}
+
+.hero-section.pinned {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.projects-section.overlay {
+  position: relative;
+  z-index: 10;
+  margin-top: 100vh;
+  background: linear-gradient(135deg, #000000 0%, #111111 50%, #000000 100%);
+  min-height: 100vh;
+}
+
+.skills-section.overlay {
+  position: relative;
+  z-index: 12;
+  background: linear-gradient(135deg, #000000 0%, #111111 50%, #000000 100%);
+  min-height: 100vh;
+}
+
+/* Dodatni style-i za smooth scrolling */
+html.pinned-scroll {
+  scroll-behavior: smooth;
+}
+
+body.pinned-scroll {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Zagotovi da se pinned sekcije pravilno obnašajo */
+.pinned-section {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Section transition styles for GSAP horizontal sliding */
+.projects-section, .skills-section {
+  position: relative;
+  width: 100vw;
+  min-height: 100vh;
+  overflow-x: hidden;
+  will-change: transform;
+}
+
+.skills-section {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translateX(100%);
+  z-index: 11;
+}
+
+.projects-section {
+  z-index: 10;
+}
+
+/* Responsive pinned scrolling */
+@media (max-width: 768px) {
+  .hero-section.pinned {
+    height: 100vh;
+  }
+  
+  .projects-section.overlay {
+    margin-top: 100vh;
+  }
+}

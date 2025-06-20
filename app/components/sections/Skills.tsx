@@ -62,7 +62,11 @@ const Skills = () => {
     return (
         <section
             ref={containerRef}
-            className="relative min-h-screen py-20 bg-black overflow-hidden flex items-center justify-center"
+            className="relative min-h-screen py-20 overflow-hidden flex items-center justify-center"
+            style={{
+                background: 'linear-gradient(135deg, #000000 0%, #111111 50%, #000000 100%)',
+                zIndex: 12
+            }}
         >
             {/* Three.js 3D Background */}
             <ThreeBackground />

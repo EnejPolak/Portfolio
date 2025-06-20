@@ -96,7 +96,7 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
                         end: '+=150vh', // Več scrolling razdalje
                         scrub: 1,
                         pin: true,
-                        markers: true, // Debug markeri
+                        markers: false,
                         anticipatePin: 1,
                         onUpdate: (self) => {
                             const progress = self.progress

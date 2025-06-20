@@ -18,6 +18,17 @@ const Projects = () => {
     const projectsInView = useInView(projectsRef, { once: true, amount: 0.1 })
     const [hoveredProject, setHoveredProject] = useState<number | null>(null)
 
+    // Links mapping za projekte
+    const projectLinks = {
+        "1of1": "https://1of1suppliers.com/",
+        "Cologne Room": "https://thecologneroom.co.uk/",
+        "Nirvana": "https://nirvana-perfume.com/",
+        "Sweet Samples": "https://sweetsamplesuk.com/",
+        "TM Scent": "https://tmscents.com/",
+        "AK Žalec": "https://www.atletski-klub-zalec.si/",
+        "Schedulizer": "https://schedulizer.eu/"
+    }
+
     const projectsData = [
         {
             name: "1of1",
@@ -107,7 +118,7 @@ const Projects = () => {
                 "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg",
                 "https://www.vectorlogo.zone/logos/tailwindcss/tailwindcss-icon.svg",
                 "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg",
-                "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/greensock/greensock-original.svg"
+                "/images/GSAP.png"
             ]
         }
     ]
@@ -361,7 +372,7 @@ const Projects = () => {
         // GSAP-style 3D hover effect
         card.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)'
         card.style.transform = `translateY(-20px) scale(1.05) rotateX(-8deg) rotateY(${index % 3 === 0 ? '8deg' : index % 3 === 2 ? '-8deg' : '0deg'}) translateZ(50px)`
-        card.style.boxShadow = '0 25px 50px -12px rgba(255, 255, 255, 0.25), 0 0 30px rgba(255, 255, 255, 0.15)'
+        card.style.boxShadow = '0 25px 50px -12px rgba(147, 51, 234, 0.4), 0 0 30px rgba(147, 51, 234, 0.3), 0 0 60px rgba(147, 51, 234, 0.2)'
     }
 
     const handleMouseLeave = (index: number, card: HTMLDivElement) => {
@@ -369,6 +380,14 @@ const Projects = () => {
         card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
         card.style.transform = 'translateY(0px) scale(1) rotateX(0deg) rotateY(0deg) translateZ(0px)'
         card.style.boxShadow = '0 10px 25px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)'
+    }
+
+    // Handle project click za odpiranje linkov
+    const handleProjectClick = (projectName: string) => {
+        const link = projectLinks[projectName as keyof typeof projectLinks]
+        if (link) {
+            window.open(link, '_blank', 'noopener,noreferrer')
+        }
     }
 
     return (
@@ -495,6 +514,7 @@ const Projects = () => {
                                     className="cursor-pointer"
                                     onMouseEnter={(e) => handleMouseEnter(index, e.currentTarget)}
                                     onMouseLeave={(e) => handleMouseLeave(index, e.currentTarget)}
+                                    onClick={() => handleProjectClick(project.name)}
                                     style={{
                                         width: '288px',
                                         height: '320px',
@@ -527,7 +547,7 @@ const Projects = () => {
                                                 {project.techIcons.map((icon: string, i: number) => (
                                                     <div
                                                         key={i}
-                                                        className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                        className={`w-10 h-10 ${icon.includes('GSAP.png') ? 'p-0' : 'p-2'} bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300`}
                                                         style={{
                                                             transform: hoveredProject === index ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                             transitionDelay: hoveredProject === index ? `${i * 50}ms` : '0ms'
@@ -537,6 +557,10 @@ const Projects = () => {
                                                             src={icon}
                                                             alt={project.technologies[i]}
                                                             className="w-full h-full object-contain"
+                                                            style={icon.includes('GSAP.png') ? { 
+                                                                transform: 'scale(1.3)',
+                                                                filter: 'brightness(1.2) contrast(1.2)'
+                                                            } : {}}
                                                         />
                                                     </div>
                                                 ))}
@@ -565,6 +589,7 @@ const Projects = () => {
                                         className="cursor-pointer"
                                         onMouseEnter={(e) => handleMouseEnter(realIndex, e.currentTarget)}
                                         onMouseLeave={(e) => handleMouseLeave(realIndex, e.currentTarget)}
+                                        onClick={() => handleProjectClick(project.name)}
                                         style={{
                                             width: '288px',
                                             height: '320px',
@@ -597,7 +622,7 @@ const Projects = () => {
                                                     {project.techIcons.map((icon: string, i: number) => (
                                                         <div
                                                             key={i}
-                                                            className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                            className={`w-10 h-10 ${icon.includes('GSAP.png') ? 'p-0' : 'p-2'} bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300`}
                                                             style={{
                                                                 transform: hoveredProject === realIndex ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                                 transitionDelay: hoveredProject === realIndex ? `${i * 50}ms` : '0ms'
@@ -607,6 +632,10 @@ const Projects = () => {
                                                                 src={icon}
                                                                 alt={project.technologies[i]}
                                                                 className="w-full h-full object-contain"
+                                                                style={icon.includes('GSAP.png') ? { 
+                                                                    transform: 'scale(1.3)',
+                                                                    filter: 'brightness(1.2) contrast(1.2)'
+                                                                } : {}}
                                                             />
                                                         </div>
                                                     ))}
@@ -625,6 +654,7 @@ const Projects = () => {
                                 className="cursor-pointer"
                                 onMouseEnter={(e) => handleMouseEnter(6, e.currentTarget)}
                                 onMouseLeave={(e) => handleMouseLeave(6, e.currentTarget)}
+                                onClick={() => handleProjectClick(projectsData[6].name)}
                                 style={{
                                     width: '288px',
                                     height: '320px',
@@ -657,7 +687,7 @@ const Projects = () => {
                                             {projectsData[6].techIcons.map((icon: string, i: number) => (
                                                 <div
                                                     key={i}
-                                                    className="w-10 h-10 p-2 bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300"
+                                                    className={`w-10 h-10 ${icon.includes('GSAP.png') ? 'p-0' : 'p-2'} bg-white/10 rounded-lg flex items-center justify-center transition-all duration-300`}
                                                     style={{
                                                         transform: hoveredProject === 6 ? 'scale(1.1) rotateY(360deg)' : 'scale(1)',
                                                         transitionDelay: hoveredProject === 6 ? `${i * 50}ms` : '0ms'

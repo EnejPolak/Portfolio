@@ -128,7 +128,7 @@ const Skills = () => {
                                             backfaceVisibility: 'hidden'
                                         }}
                                     >
-                                        <div className="w-full h-full bg-slate-900/80 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center p-6 border border-white/10">
+                                        <div className="w-full h-full bg-slate-900/95 rounded-2xl flex flex-col items-center justify-center p-6">
                                             {/* Icon Container */}
                                             <motion.div
                                                 className="w-16 h-16 md:w-20 md:h-20 mb-4 relative"

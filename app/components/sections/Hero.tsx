@@ -4,10 +4,14 @@
 import { motion } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
 import { ChevronDown, Github, Linkedin, Mail, ArrowRight, Sparkles } from 'lucide-react'
+import ContactModal from '../ContactModal'
+import CVSelectionModal from '../CVSelectionModal'
 
 const Hero = () => {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
     const [isLoaded, setIsLoaded] = useState(false)
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false)
+    const [isCVModalOpen, setIsCVModalOpen] = useState(false)
     const backgroundRef = useRef(null)
     const gridRef = useRef(null)
 
@@ -244,8 +248,7 @@ const Hero = () => {
                         texts={[
                             "Frontend Developer",
                             "UI/UX Designer",
-                            "React Specialist",
-                            "Creative Coder"
+                            "Full Stack Developer"
                         ]}
                     />
                 </motion.div>
@@ -256,7 +259,7 @@ const Hero = () => {
                     className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
                     style={{ marginBottom: '4rem' }}
                 >
-                    Crafting beautiful, performant, and user-centered web applications with modern technologies and clean, maintainable code.
+                    Crafting, performant, and user-centered web applications with modern technologies and clean, maintainable code.
                 </motion.p>
 
                 {/* Enhanced CTA Buttons */}
@@ -271,6 +274,7 @@ const Hero = () => {
                 >
                     {/* Primary Button with Magic Effect */}
                     <motion.button
+                        onClick={() => setIsCVModalOpen(true)}
                         className="group relative bg-primary text-primary-foreground rounded-full font-medium text-sm overflow-hidden border border-primary/20"
                         style={{ padding: '0.5rem 1.2rem' }}
                         whileHover={{ scale: 1.02 }}
@@ -297,7 +301,7 @@ const Hero = () => {
                         </motion.div>
 
                         <span className="relative z-10 flex items-center gap-2">
-                            View My Work
+                            Download CV
                             <motion.div
                                 className="group-hover:translate-x-1 transition-transform duration-200"
                             >
@@ -308,6 +312,7 @@ const Hero = () => {
 
                     {/* Secondary Button with Morphing Border */}
                     <motion.button
+                        onClick={() => setIsContactModalOpen(true)}
                         className="group relative bg-transparent text-primary rounded-full font-medium text-sm overflow-hidden"
                         style={{ padding: '0.5rem 1.2rem' }}
                         whileHover={{ scale: 1.02 }}
@@ -341,13 +346,15 @@ const Hero = () => {
                     style={{ gap: '2rem' }}
                 >
                     {[
-                        { icon: Github, href: "#", label: "GitHub", color: "hover:text-white hover:bg-black" },
-                        { icon: Linkedin, href: "#", label: "LinkedIn", color: "hover:text-white hover:bg-blue-600" },
-                        { icon: Mail, href: "#", label: "Email", color: "hover:text-white hover:bg-green-600" }
+                        { icon: Github, href: "https://github.com/EnejPolak", label: "GitHub", color: "hover:text-white hover:bg-black" },
+                        { icon: Linkedin, href: "https://www.linkedin.com/in/enej-polak-095655276/", label: "LinkedIn", color: "hover:text-white hover:bg-blue-600" },
+                        { icon: Mail, href: "mailto:enej.polak@gmail.com", label: "Email", color: "hover:text-white hover:bg-green-600" }
                     ].map(({ icon: Icon, href, label, color }) => (
                         <motion.a
                             key={label}
                             href={href}
+                            target={href.startsWith('http') ? '_blank' : undefined}
+                            rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
                             className={`group relative p-4 bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 transition-all duration-300 ${color}`}
                             whileHover={{
                                 scale: 1.1,
@@ -396,6 +403,24 @@ const Hero = () => {
                     </motion.div>
                 </div>
             </motion.div>
+
+            {/* Contact Modal */}
+            <ContactModal 
+                isOpen={isContactModalOpen}
+                onClose={() => setIsContactModalOpen(false)}
+            />
+            
+            {/* CV Selection Modal */}
+            <CVSelectionModal 
+                isOpen={isCVModalOpen}
+                onClose={() => setIsCVModalOpen(false)}
+            />
+            
+            {/* CV Selection Modal */}
+            <CVSelectionModal 
+                isOpen={isCVModalOpen}
+                onClose={() => setIsCVModalOpen(false)}
+            />
         </section>
     )
 }

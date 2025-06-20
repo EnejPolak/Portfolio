@@ -6,37 +6,24 @@ import PinnedScrollProvider from './components/animations/PinnedScrollProvider'
 
 export default function Home() {
     return (
-        <PinnedScrollProvider>
-            <main className="relative">
-                {/* Hero Section - Fiksiran */}
-                <section id="hero" className="hero-section">
+        <main className="relative overflow-hidden">
+            {/* PinnedScrollProvider z vsemi sekcijami */}
+            <PinnedScrollProvider>
+                {/* Hero Section */}
+                <section id="hero" className="hero-section w-full h-screen">
                     <Hero />
                 </section>
 
-                {/* Projects Section - Se premakne navzgor preko Hero */}
-                <section id="projects" className="projects-section">
+                {/* Projects Section */}
+                <section id="projects" className="projects-section w-full min-h-screen">
                     <Projects />
                 </section>
 
-                {/* Skills Section - Slide in from right */}
-                <section id="skills" className="skills-section">
+                {/* Skills Section */}
+                <section id="skills" className="skills-section w-full h-screen">
                     <Skills />
                 </section>
-
-                {/* Other sections temporarily hidden */}
-                {/* 
-                <section id="floatingCards">
-                    <FloatingCards />
-                </section>
-
-                <section id="contact" className="min-h-screen bg-card flex items-center justify-center">
-                    <div className="text-center">
-                        <h2 className="text-6xl font-bold gradient-text mb-4">Contact</h2>
-                        <p className="text-xl text-muted-foreground">Contact form with animations! 📧</p>
-                    </div>
-                </section>
-                */}
-            </main>
-        </PinnedScrollProvider>
+            </PinnedScrollProvider>
+        </main>
     )
 }

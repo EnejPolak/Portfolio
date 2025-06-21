@@ -10,7 +10,6 @@ const SmoothScrolling = ({ children }: { children: React.ReactNode }) => {
         const lenis = new Lenis({
             duration: 0.8, // Reduced from 1.2
             easing: (t: number) => t, // Linear easing for better performance
-            smooth: true,
             mouseMultiplier: 0.8, // Reduced for less lag
             touchMultiplier: 1.5,
             infinite: false,

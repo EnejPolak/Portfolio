@@ -186,7 +186,7 @@ const Projects = () => {
         let lastMouseY = -1
         let mouseOnCanvas = false
         // let isMoving = false
-        let moveTimeout: NodeJS.Timeout | null = null
+        const moveTimeout: NodeJS.Timeout | null = null
         // let lastInteractionTime = 0
 
         // Track state for each line with flow properties

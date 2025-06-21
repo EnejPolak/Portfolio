@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: write
+  
 jobs:
   create-backup:
     runs-on: ubuntu-latest
@@ -16,6 +19,10 @@ jobs:
         
     - name: Create backup branch
       run: |
+        # Nastavi git config
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        
         # Nastavi datum in čas za backup branch ime
         DATE=$(date +"%Y-%m-%d_%H-%M-%S")
         BACKUP_BRANCH="backup/main-$DATE"

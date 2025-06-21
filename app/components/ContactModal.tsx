@@ -148,14 +148,27 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                 {isSuccess ? (
                     /* Success State */
                     <div className="text-center py-8">
-                        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <CheckCircle className="w-8 h-8 text-green-400" />
+                        <div 
+                            className="success-checkmark-container w-20 h-20 bg-green-500/20 rounded-full mx-auto mb-6"
+                            style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center'
+                            }}
+                        >
+                            <CheckCircle 
+                                className="w-12 h-12 text-green-400" 
+                                style={{
+                                    display: 'block',
+                                    margin: 'auto'
+                                }}
+                            />
                         </div>
-                        <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
-                        <p className="text-white/70 mb-6">Thanks for reaching out. I&apos;ll get back to you soon.</p>
+                        <h3 className="text-xl font-semibold text-white">Message Sent!</h3>
+                        <p className="text-white/70">Thanks for reaching out. I&apos;ll get back to you soon.</p>
                         <button
                             onClick={handleClose}
-                            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2 rounded-full transition-all"
+                            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-xl text-base font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg"
                         >
                             Close
                         </button>

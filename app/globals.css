@@ -478,6 +478,72 @@ body.pinned-scroll {
   margin-top: 1.5rem !important; /* Večji razmik nad gumbom */
 }
 
+/* Contact Modal Success State */
+.contact-modal-container .text-center .w-20.h-20 {
+  width: 5rem !important; /* w-20 */
+  height: 5rem !important; /* h-20 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.contact-modal-container .text-center div.w-20 {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.contact-modal-container .text-center .w-12 {
+  width: 3rem !important; /* w-12 */
+  height: 3rem !important; /* h-12 */
+}
+
+.contact-modal-container .text-center button {
+  padding: 0.75rem 2rem !important; /* py-3 px-8 */
+  font-size: 1rem !important; /* text-base */
+  font-weight: 600 !important; /* font-semibold */
+  border-radius: 0.75rem !important; /* rounded-xl */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important; /* shadow-lg */
+}
+
+/* Force checkmark centering */
+.success-checkmark-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 5rem !important;
+  height: 5rem !important;
+}
+
+/* Extra specific checkmark centering - force override */
+.contact-modal-container .success-checkmark-container {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 5rem !important;
+  height: 5rem !important;
+}
+
+.contact-modal-container .success-checkmark-container svg {
+  display: block !important;
+  margin: auto !important;
+}
+
+.contact-modal-container .success-checkmark-container {
+  margin-bottom: 1rem !important; /* več prostora med kljukico in naslovom */
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* Success state spacing */
+.contact-modal-container .text-center h3 {
+  margin-bottom: 0.1rem !important; /* mb-3 */
+}
+
+.contact-modal-container .text-center p {
+  margin-bottom: 1rem !important; /* mb-12 */
+}
+
 /* Responsive pinned scrolling */
 @media (max-width: 768px) {
   .hero-section.pinned {

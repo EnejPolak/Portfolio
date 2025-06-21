@@ -334,7 +334,6 @@
         @media print {
             body {
                 margin: 0 !important;
-                background: white !important;
                 -webkit-print-color-adjust: exact !important;
                 color-adjust: exact !important;
             }
@@ -344,8 +343,20 @@
                 box-shadow: none !important;
                 width: 100% !important;
                 height: auto !important;
-                border: none !important;
                 page-break-inside: avoid !important;
+                display: grid !important;
+                grid-template-columns: 220px 1fr !important;
+                grid-template-areas: "left right" !important;
+            }
+
+            .left-column {
+                grid-area: left !important;
+                order: 1 !important;
+            }
+
+            .right-column {
+                grid-area: right !important;
+                order: 2 !important;
             }
 
             .action-buttons {
@@ -353,11 +364,12 @@
             }
 
             .portfolio-item {
-                background-color: var(--secondary-bg) !important;
-                color: var(--accent-color) !important;
                 transform: none !important;
-                box-shadow: none !important;
                 page-break-inside: avoid !important;
+            }
+
+            .portfolio-item::after {
+                display: none !important;
             }
 
             .experience-item, .education-item, .section {

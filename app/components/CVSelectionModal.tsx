@@ -66,13 +66,13 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
         >
             <div 
                 ref={modalRef}
-                className="relative w-full max-w-md mx-auto"
+                className="relative w-full max-w-lg mx-auto"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                     background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(10, 10, 10, 0.95) 100%)',
                     border: '1px solid rgba(99, 102, 241, 0.3)',
-                    borderRadius: '20px',
-                    padding: '2.5rem',
+                    borderRadius: '24px',
+                    padding: '1rem 2.5rem',
                     boxShadow: '0 20px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(20px)'
                 }}
@@ -80,36 +80,36 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                 {/* Close Button */}
                 <button
                     onClick={handleClose}
-                    className="absolute top-5 right-5 text-white/50 hover:text-white transition-all duration-200 p-2.5 rounded-xl hover:bg-white/10 hover:scale-110 active:scale-95"
+                    className="absolute top-6 right-6 text-white/50 hover:text-white transition-all duration-200 p-3 rounded-xl hover:bg-white/10 hover:scale-110 active:scale-95"
                 >
-                    <X className="w-4 h-4" />
+                    <X className="w-5 h-5" />
                 </button>
 
                 {/* Header */}
-                <div className="text-center mb-8">
-                    <div className="w-16 h-16 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <FileText className="w-8 h-8 text-white" />
+                <div className="text-center mb-4 cv-modal-header">
+                    <div className="w-18 h-18 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <FileText className="w-9 h-9 text-white" />
                     </div>
-                    <h2 className="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-2">
+                    <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3">
                         Download CV
                     </h2>
-                    <p className="text-white/60 text-sm">
+                    <p className="text-white/60 text-base">
                         Choose your preferred language
                     </p>
                 </div>
 
                 {/* Language Options */}
-                <div className="space-y-4">
+                <div className="flex flex-col gap-3 cv-modal-container">
                     <button
                         onClick={() => downloadCV('slovensko')}
-                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-6 transition-all duration-300 text-left"
+                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-8 transition-all duration-300 text-left"
                     >
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="text-3xl">🇸🇮</div>
+                                <div className="text-4xl">🇸🇮</div>
                                 <div>
-                                    <h3 className="text-white font-semibold text-lg mb-1">Slovenščina</h3>
-                                    <p className="text-white/60 text-sm">Slovenski življenjepis</p>
+                                    <h3 className="text-white font-semibold text-xl mb-2">Slovenščina</h3>
+                                    <p className="text-white/60 text-base">Slovenski življenjepis</p>
                                 </div>
                             </div>
                             <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
@@ -121,14 +121,14 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
 
                     <button
                         onClick={() => downloadCV('english')}
-                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-6 transition-all duration-300 text-left"
+                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-8 transition-all duration-300 text-left"
                     >
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
-                                <div className="text-3xl">🇬🇧</div>
+                                <div className="text-4xl">🇺🇸</div>
                                 <div>
-                                    <h3 className="text-white font-semibold text-lg mb-1">English</h3>
-                                    <p className="text-white/60 text-sm">English resume</p>
+                                    <h3 className="text-white font-semibold text-xl mb-2">English</h3>
+                                    <p className="text-white/60 text-base">English resume</p>
                                 </div>
                             </div>
                             <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
@@ -140,8 +140,8 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-6 text-center">
-                    <p className="text-white/40 text-xs leading-relaxed">
+                <div className="mt-6 text-center cv-modal-footer">
+                    <p className="text-white/40 text-sm leading-relaxed">
                         CV will open in new window.<br/>
                         Use Ctrl+P (Windows) or Cmd+P (Mac) to save as PDF
                     </p>

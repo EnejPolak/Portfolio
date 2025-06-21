@@ -93,23 +93,27 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
                     scrollTrigger: {
                         trigger: projectsSection,
                         start: 'bottom bottom', // Ko dosežemo dno Projects sekcije
-                        end: '+=150vh', // Več scrolling razdalje
-                        scrub: 1,
+                        end: '+=250vh', // Še več scrolling razdalje
+                        scrub: 2, // Počasnejši, bolj smooth scrub
                         pin: true,
                         markers: false,
                         anticipatePin: 1,
                         onUpdate: (self) => {
                             const progress = self.progress
-                            console.log('Horizontal animation progress:', progress) // Debug
+                            
+                            // Uporabimo easing funkcijo za smooth prehod
+                            const easedProgress = progress < 0.3 ? 0 : (progress - 0.3) / 0.7
                             
                             // Projects se premika čisto samo v levo
                             gsap.set(projectsSection, {
-                                x: -progress * window.innerWidth
+                                x: -easedProgress * window.innerWidth,
+                                ease: "power2.out"
                             })
                             
                             // Skills pride iz desne strani
                             gsap.set(skillsSection, {
-                                x: window.innerWidth - (progress * window.innerWidth)
+                                x: window.innerWidth - (easedProgress * window.innerWidth),
+                                ease: "power2.out"
                             })
                         }
                     }

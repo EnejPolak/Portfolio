@@ -100,7 +100,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
         >
             <div 
                 ref={modalRef}
-                className="relative w-full max-w-md mx-auto"
+                className="relative w-full max-w-md mx-auto contact-modal-container"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                     background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(10, 10, 10, 0.95) 100%)',
@@ -120,13 +120,13 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                 </button>
 
                 {/* Header */}
-                <div className="text-center mb-10">
+                <div className="text-center mb-10 contact-modal-header">
                     <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3">
                         Get In Touch
                     </h2>
-                                            <p className="text-white/60 text-sm">
-                            Let&apos;s discuss your next project
-                        </p>
+                    <p className="text-white/60 text-sm">
+                        Let&apos;s discuss your next project
+                    </p>
                 </div>
 
                 {isSuccess ? (
@@ -146,11 +146,11 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                     </div>
                 ) : (
                     /* Form */
-                    <form ref={formRef} onSubmit={handleSubmit} className="space-y-5">
+                    <form ref={formRef} onSubmit={handleSubmit} className="contact-modal-form">
                         {/* Name Field */}
                         <div>
-                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase">
-                                <User className="w-3 h-3 inline mr-2" />
+                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase contact-modal-label">
+                                <User className="w-3 h-3 inline mr-3" />
                                 Your Name
                             </label>
                             <input
@@ -159,15 +159,15 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                                 value={formData.name}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-4 py-3.5 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300"
+                                className="w-full px-4 py-3.5 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300 contact-modal-input"
                                 placeholder="Enter your name"
                             />
                         </div>
 
                         {/* Email Field */}
                         <div>
-                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase">
-                                <Mail className="w-3 h-3 inline mr-2" />
+                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase contact-modal-label">
+                                <Mail className="w-3 h-3 inline mr-3" />
                                 Email Address
                             </label>
                             <input
@@ -176,15 +176,15 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 required
-                                className="w-full px-4 py-3.5 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300"
+                                className="w-full px-4 py-3.5 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300 contact-modal-input"
                                 placeholder="your.email@example.com"
                             />
                         </div>
 
                         {/* Message Field */}
                         <div>
-                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase">
-                                <MessageSquare className="w-3 h-3 inline mr-2" />
+                            <label className="block text-white/80 text-xs font-medium mb-3 tracking-wide uppercase contact-modal-label">
+                                <MessageSquare className="w-3 h-3 inline mr-3" />
                                 Your Message
                             </label>
                             <textarea
@@ -193,7 +193,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                                 onChange={handleInputChange}
                                 required
                                 rows={6}
-                                className="w-full px-5 py-4 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300 resize-none leading-relaxed"
+                                className="w-full px-5 py-4 bg-white/8 border border-white/15 rounded-2xl text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-purple-500/40 focus:border-purple-500/30 focus:bg-white/12 transition-all duration-300 resize-none leading-relaxed contact-modal-textarea"
                                 placeholder="Tell me about your project..."
                             />
                         </div>
@@ -203,7 +203,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             <button
                                 type="submit"
                                 disabled={isSubmitting}
-                                className="group relative w-full bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]"
+                                className="group relative w-full bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 text-white font-semibold py-4 px-6 rounded-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-3 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40 hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] contact-modal-button"
                                 style={{
                                     background: isSubmitting ? 
                                         'linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #3b82f6 100%)' :

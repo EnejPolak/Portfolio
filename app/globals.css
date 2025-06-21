@@ -407,6 +407,77 @@ body.pinned-scroll {
   z-index: 10;
 }
 
+/* CV Modal specific styles - force spacing over CSS reset */
+.cv-modal-container {
+  gap: 0.75rem !important; /* gap-3 */
+}
+
+.cv-modal-header {
+  margin-bottom: 0.5rem !important; /* mb-4 */
+}
+
+.cv-modal-footer {
+  margin-top: 1rem !important; /* mt-6 */
+}
+
+/* Contact Modal Enhanced Styling */
+.contact-modal-container {
+  padding-top: 1rem !important;    /* manjši razmik na vrhu */
+  padding-bottom: 3rem !important;
+  padding-left: 3rem !important;
+  padding-right: 3rem !important;
+  max-width: 32rem !important; /* Malo širši modal */
+}
+
+.contact-modal-header h2 {
+  font-size: 2.5rem !important; /* Večji naslov */
+  margin-bottom: 1rem !important;
+}
+
+.contact-modal-header p {
+  font-size: 1rem !important; /* Večji subtitle */
+  margin-bottom: 2rem !important; /* Večji razmik pod headerjem */
+}
+
+.contact-modal-form > div {
+  margin-bottom: 1.5rem !important; /* Manjši razmik med fieldi */
+}
+
+.contact-modal-form > div:last-child {
+  margin-bottom: 0 !important; /* Zadnji element brez spodnje margine */
+}
+
+.contact-modal-label {
+  font-size: 0.875rem !important; /* Večji labeli */
+  margin-bottom: 0.5rem !important; /* Manjši razmik med labelom in inputom */
+  font-weight: 600 !important;
+}
+
+.contact-modal-label svg {
+  margin-right: 0.75rem !important; /* Večji razmik med ikono in besedilom */
+}
+
+.contact-modal-input {
+  padding: 0.875rem 1rem !important; /* Manjši input padding */
+  font-size: 0.95rem !important; /* Malo manjša pisava v inputih */
+  line-height: 1.4 !important;
+  border-width: 1.5px !important; /* Bolj vidna meja */
+}
+
+.contact-modal-textarea {
+  padding: 0.5rem !important; /* Večji textarea padding */
+  font-size: 1rem !important; /* Večja pisava */
+  line-height: 1.6 !important;
+  min-height: 140px !important; /* Višji textarea */
+  border-width: 1.5px !important;
+}
+
+.contact-modal-button {
+  padding: 1.25rem 2rem !important; /* Večji gumb */
+  font-size: 1rem !important; /* Večja pisava na gumbu */
+  margin-top: 1.5rem !important; /* Večji razmik nad gumbom */
+}
+
 /* Responsive pinned scrolling */
 @media (max-width: 768px) {
   .hero-section.pinned {

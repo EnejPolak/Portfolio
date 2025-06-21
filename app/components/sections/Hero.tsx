@@ -275,8 +275,8 @@ const Hero = () => {
                     {/* Primary Button with Magic Effect */}
                     <motion.button
                         onClick={() => setIsCVModalOpen(true)}
-                        className="group relative bg-primary text-primary-foreground rounded-full font-medium text-sm overflow-hidden border border-primary/20"
-                        style={{ padding: '0.5rem 1.2rem' }}
+                        className="group relative bg-primary text-primary-foreground rounded-full font-medium text-base overflow-hidden border border-primary/20"
+                        style={{ padding: '0.5rem 2rem' }}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -313,8 +313,8 @@ const Hero = () => {
                     {/* Secondary Button with Morphing Border */}
                     <motion.button
                         onClick={() => setIsContactModalOpen(true)}
-                        className="group relative bg-transparent text-primary rounded-full font-medium text-sm overflow-hidden"
-                        style={{ padding: '0.5rem 1.2rem' }}
+                        className="group relative bg-transparent text-primary rounded-full font-medium text-base overflow-hidden"
+                        style={{ padding: '0.5rem 2rem' }}
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -373,7 +373,7 @@ const Hero = () => {
                                 whileHover={{ rotateY: 360 }}
                                 transition={{ duration: 0.6 }}
                             >
-                                <Icon className="w-5 h-5 relative z-10 transition-colors duration-300" />
+                                <Icon className="w-7 h-7 relative z-10 transition-colors duration-300" />
                             </motion.div>
 
                             {/* Tooltip */}
@@ -442,12 +442,12 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
             }
 
             if (!isDeleting && currentText === fullText) {
-                setTimeout(() => setIsDeleting(true), 2500)
+                setTimeout(() => setIsDeleting(true), 1500)
             } else if (isDeleting && currentText === '') {
                 setIsDeleting(false)
                 setCurrentTextIndex((prev) => (prev + 1) % texts.length)
             }
-        }, isDeleting ? 30 : 80)
+        }, isDeleting ? 20 : 50)
 
         return () => clearTimeout(timeout)
     }, [currentText, isDeleting, currentTextIndex, texts])

@@ -1,4 +1,3 @@
-// @ts-nocheck
 'use client'
 
 import { useEffect, ReactNode } from 'react'
@@ -20,7 +19,7 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
             // Počakamo, da se komponente naložijo
             const timer = setTimeout(() => {
                 // Počistimo prejšnje scroll trigger-je
-                ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill())
+                ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
 
                 const heroSection = document.querySelector('.hero-section') as HTMLElement
                 const projectsSection = document.querySelector('.projects-section') as HTMLElement
@@ -128,7 +127,7 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
 
             return () => {
                 clearTimeout(timer)
-                ScrollTrigger.getAll().forEach((trigger: any) => trigger.kill())
+                ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
             }
         }
 

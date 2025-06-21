@@ -124,9 +124,9 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                     <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3">
                         Get In Touch
                     </h2>
-                    <p className="text-white/60 text-sm">
-                        Let's discuss your next project
-                    </p>
+                                            <p className="text-white/60 text-sm">
+                            Let&apos;s discuss your next project
+                        </p>
                 </div>
 
                 {isSuccess ? (
@@ -136,7 +136,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
                             <CheckCircle className="w-8 h-8 text-green-400" />
                         </div>
                         <h3 className="text-xl font-semibold text-white mb-2">Message Sent!</h3>
-                        <p className="text-white/70 mb-6">Thanks for reaching out. I'll get back to you soon.</p>
+                        <p className="text-white/70 mb-6">Thanks for reaching out. I&apos;ll get back to you soon.</p>
                         <button
                             onClick={handleClose}
                             className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-6 py-2 rounded-full transition-all"

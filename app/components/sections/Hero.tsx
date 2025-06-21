@@ -238,7 +238,7 @@ const Hero = () => {
                                 duration: 4,
                                 repeat: Infinity,
                                 ease: "easeInOut"
-                            } as any}
+                            }}
                         >
                             digital experiences
                         </motion.span>
@@ -259,7 +259,7 @@ const Hero = () => {
                     className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed"
                     style={{ marginBottom: '4rem' }}
                 >
-                    Crafting, performant, and user-centered web applications with modern technologies and clean, maintainable code.
+                    Crafting performant and user-centered web applications with modern technologies and clean, maintainable code.
                 </motion.p>
 
                 {/* Enhanced CTA Buttons */}
@@ -288,13 +288,13 @@ const Hero = () => {
                             transition={{
                                 x: { duration: 0.6, ease: "easeInOut" },
                                 opacity: { duration: 0.2 }
-                            } as any}
+                            }}
                         />
 
                         {/* Sparkle Effect */}
                         <motion.div
                             className="absolute inset-0 opacity-0 group-hover:opacity-100"
-                            transition={{ duration: 0.3 } as any}
+                            transition={{ duration: 0.3 }}
                         >
                             <Sparkles className="absolute top-2 right-2 w-3 h-3 text-white/60" />
                             <Sparkles className="absolute bottom-2 left-2 w-2 h-2 text-white/40" />
@@ -326,13 +326,13 @@ const Hero = () => {
                                 borderWidth: ['2px', '3px', '2px'],
                                 borderColor: ['rgba(99, 102, 241, 0.3)', 'rgba(99, 102, 241, 1)', 'rgba(99, 102, 241, 0.3)']
                             }}
-                            transition={{ duration: 0.5 } as any}
+                            transition={{ duration: 0.5 }}
                         />
 
                         {/* Gradient Fill on Hover */}
                         <motion.div
                             className="absolute inset-0 bg-primary/5 rounded-full opacity-0 group-hover:opacity-100"
-                            transition={{ duration: 0.3 } as any}
+                            transition={{ duration: 0.3 }}
                         />
 
                         <span className="relative z-10">Get In Touch</span>
@@ -365,13 +365,13 @@ const Hero = () => {
                             {/* Glow Effect */}
                             <motion.div
                                 className="absolute inset-0 rounded-xl bg-primary/10 opacity-0 group-hover:opacity-100"
-                                transition={{ duration: 0.3 } as any}
+                                transition={{ duration: 0.3 }}
                             />
 
                             {/* Icon Rotation */}
                             <motion.div
                                 whileHover={{ rotateY: 360 }}
-                                transition={{ duration: 0.6 } as any}
+                                transition={{ duration: 0.6 }}
                             >
                                 <Icon className="w-5 h-5 relative z-10 transition-colors duration-300" />
                             </motion.div>
@@ -389,7 +389,7 @@ const Hero = () => {
             <motion.div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
                 animate={{ y: [0, 8, 0] }}
-                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" } as any}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
                 <div className="flex flex-col items-center text-muted-foreground group cursor-pointer">
                     <span className="text-xs mb-3 font-mono tracking-wider opacity-60 group-hover:opacity-100 transition-opacity">
@@ -457,7 +457,7 @@ const TypewriterText = ({ texts }: { texts: string[] }) => {
             <span className="min-w-0">{currentText}</span>
             <motion.span
                 animate={{ opacity: [0, 1, 0] }}
-                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" } as any}
+                transition={{ duration: 1, repeat: Infinity, ease: "easeInOut" }}
                 className="text-primary ml-1"
             >
                 |

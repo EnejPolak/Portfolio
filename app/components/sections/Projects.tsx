@@ -185,9 +185,9 @@ const Projects = () => {
         let lastMouseX = -1
         let lastMouseY = -1
         let mouseOnCanvas = false
-        let isMoving = false
+        // let isMoving = false
         let moveTimeout: NodeJS.Timeout | null = null
-        let lastInteractionTime = 0
+        // let lastInteractionTime = 0
 
         // Track state for each line with flow properties
         const linesState: Array<{
@@ -227,9 +227,9 @@ const Projects = () => {
         console.log('Lines count:', linesState.length)
 
         // Throttled mouse movement handling
-        let lastInteractionX = 0
-        let lastInteractionY = 0
-        let movementAccumulator = 0
+        // let lastInteractionX = 0
+        // let lastInteractionY = 0
+        // let movementAccumulator = 0
 
         // Mouse event handlers
         const handleMouseMove = (e: MouseEvent) => {

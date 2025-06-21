@@ -1,0 +1,44 @@
+name: Auto Backup on Main Push
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  create-backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        
+    - name: Create backup branch
+      run: |
+        # Nastavi datum in čas za backup branch ime
+        DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+        BACKUP_BRANCH="backup/main-$DATE"
+        
+        # Ustvari backup branch
+        git checkout -b $BACKUP_BRANCH
+        
+        # Pushni backup branch
+        git push origin $BACKUP_BRANCH
+        
+        echo "✅ Backup branch created: $BACKUP_BRANCH"
+        
+    - name: Keep only last 10 backups
+      run: |
+        # Dobi vse backup branche
+        git branch -r | grep "origin/backup/main-" | sed 's/origin\///' | sort -r | tail -n +11 > branches_to_delete.txt
+        
+        # Izbriši stare backup branche (obdrži samo zadnjih 10)
+        if [ -s branches_to_delete.txt ]; then
+          while read branch; do
+            git push origin --delete $branch
+            echo "🗑️ Deleted old backup: $branch"
+          done < branches_to_delete.txt
+        fi
+        
+        echo "🧹 Cleanup completed - kept last 10 backups" 

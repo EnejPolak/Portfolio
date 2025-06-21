@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { X, Send, Mail, MessageSquare, User, CheckCircle } from 'lucide-react'
 import { gsap } from 'gsap'
+import emailjs from '@emailjs/browser'
 
 interface ContactModalProps {
     isOpen: boolean
@@ -65,9 +66,23 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
         gsap.to(formRef.current, { y: -10, duration: 0.3 })
 
         try {
-            // Simulacija pošiljanja
-            await new Promise(resolve => setTimeout(resolve, 1500))
-            console.log('Contact data:', formData)
+            // EmailJS konfiguracija - ZAMENJAJ S SVOJIMI VREDNOSTMI:
+            // 1. serviceId: dobi iz Email Services v EmailJS dashboard
+            // 2. templateId: dobi iz Email Templates v EmailJS dashboard  
+            // 3. publicKey: dobi iz Account > General v EmailJS dashboard
+            const serviceId = 'service_ja6bhvr' // Service ID
+            const templateId = 'template_i876ezl' // Template ID  
+            const publicKey = 'nN4u5VrWkXWxy-Xm-' // Public Key
+
+            // Priprava email parametrov
+            const templateParams = {
+                name: formData.name,
+                email: formData.email,
+                message: formData.message
+            }
+
+            // Pošlji email preko EmailJS
+            await emailjs.send(serviceId, templateId, templateParams, publicKey)
             
             setIsSuccess(true)
             setFormData({ name: '', email: '', message: '' })
@@ -80,6 +95,7 @@ const ContactModal = ({ isOpen, onClose }: ContactModalProps) => {
             
         } catch (error) {
             console.error('Error sending message:', error)
+            alert('Error sending message. Please try again or contact me directly at enej.polak@gmail.com')
         } finally {
             setIsSubmitting(false)
             gsap.to(formRef.current, { y: 0, duration: 0.3 })

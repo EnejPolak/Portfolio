@@ -51,8 +51,8 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
                 gsap.set(projectsSection, {
                     position: 'relative',
                     zIndex: 10,
-                    marginTop: '100vh', // Začne se po polni višini Hero sekcije
-                    backgroundColor: '#000000', // Črno ozadje
+                    marginTop: '100vh',
+                    backgroundColor: '#000000',
                     minHeight: '100vh'
                 })
 
@@ -64,70 +64,65 @@ const PinnedScrollProvider = ({ children }: PinnedScrollProviderProps) => {
                     width: '100%',
                     height: '100vh',
                     zIndex: 20,
-                    x: window.innerWidth, // Postavimo z GSAP x transform
-                    backgroundColor: '#111111' // Temno ozadje za Skills
+                    x: window.innerWidth,
+                    backgroundColor: '#111111'
                 })
 
                 // Animacija, kjer se Projects sekcija pomika navzgor preko Hero sekcije
                 gsap.timeline({
                     scrollTrigger: {
                         trigger: projectsSection,
-                        start: 'top bottom', // Ko Projects sekcija pride na dno viewporta
-                        end: 'top top', // Ko Projects sekcija pride na vrh viewporta
-                        scrub: 1, // Smooth scrolling animacija
+                        start: 'top bottom',
+                        end: 'top top',
+                        scrub: 1,
                         pin: false,
                         anticipatePin: 1,
                         onUpdate: (self) => {
-                            // Hero sekcija izginava med scrollom
+                            // Hero sekcija popolnoma izgine hitro
                             const progress = self.progress
                             gsap.set(heroSection, {
-                                opacity: 1 - progress * 0.3, // Rahlo zatemnitev
-                                scale: 1 + progress * 0.05 // Rahlo povečanje
+                                opacity: Math.max(0, 1 - progress * 3), // Hitreje izgine
+                                scale: 1 + progress * 0.1
                             })
                         }
                     }
                 })
 
-                // Horizontalna animacija s čistim GSAP-om
-                const horizontalTl = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: projectsSection,
-                        start: 'bottom bottom', // Ko dosežemo dno Projects sekcije
-                        end: '+=250vh', // Še več scrolling razdalje
-                        scrub: 2, // Počasnejši, bolj smooth scrub
-                        pin: true,
-                        markers: false,
-                        anticipatePin: 1,
-                        onUpdate: (self) => {
-                            const progress = self.progress
-                            
-                            // Uporabimo easing funkcijo za smooth prehod
-                            const easedProgress = progress < 0.3 ? 0 : (progress - 0.3) / 0.7
-                            
-                            // Projects se premika čisto samo v levo
-                            gsap.set(projectsSection, {
-                                x: -easedProgress * window.innerWidth,
-                                ease: "power2.out"
-                            })
-                            
-                            // Skills pride iz desne strani
-                            gsap.set(skillsSection, {
-                                x: window.innerWidth - (easedProgress * window.innerWidth),
-                                ease: "power2.out"
-                            })
+                // Horizontalna animacija - postopna in dolga
+                ScrollTrigger.create({
+                    trigger: projectsSection,
+                    start: 'bottom bottom',
+                    end: '+=500vh', // Veliko daljša razdalja - potrebuje več scrollov
+                    scrub: 3, // Še bolj smooth scrub
+                    pin: true,
+                    anticipatePin: 1,
+                    onUpdate: (self) => {
+                        const progress = self.progress
+                        
+                        // Postopno easing - počasni začetek, počasen konec
+                        const easeInOutCubic = (t: number): number => {
+                            return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2
                         }
+                        const easedProgress = easeInOutCubic(progress)
+                        
+                        // Projects se postopno premika v levo
+                        gsap.set(projectsSection, {
+                            x: -easedProgress * window.innerWidth,
+                            ease: "power3.out"
+                        })
+                        
+                        // Skills postopno pride iz desne strani
+                        gsap.set(skillsSection, {
+                            x: window.innerWidth * (1 - easedProgress),
+                            ease: "power3.out"
+                        })
                     }
                 })
-
-                // Alternativno z običajno animacijo
-                horizontalTl
-                    .to(projectsSection, { x: -window.innerWidth, duration: 1 }, 0)
-                    .to(skillsSection, { x: 0, duration: 1 }, 0)
 
                 // Refresh ScrollTrigger
                 ScrollTrigger.refresh()
 
-            }, 500) // Povečam timeout za boljše nalaganje
+            }, 500)
 
             return () => {
                 clearTimeout(timer)

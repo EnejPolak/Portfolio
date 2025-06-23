@@ -2,103 +2,22 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { ChevronDown, Github, Linkedin, Mail, ArrowRight, Sparkles } from 'lucide-react'
 import ContactModal from '../ContactModal'
 import CVSelectionModal from '../CVSelectionModal'
+import SplineBackground from '../3d/SplineBackground'
 
 const Hero = () => {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
     const [isLoaded, setIsLoaded] = useState(false)
     const [isContactModalOpen, setIsContactModalOpen] = useState(false)
     const [isCVModalOpen, setIsCVModalOpen] = useState(false)
-    const backgroundRef = useRef(null)
-    const gridRef = useRef(null)
 
     useEffect(() => {
         setIsLoaded(true)
-
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({
-                x: (e.clientX / window.innerWidth) * 2 - 1,
-                y: (e.clientY / window.innerHeight) * 2 - 1
-            })
-        }
-
-        window.addEventListener('mousemove', handleMouseMove)
-        return () => window.removeEventListener('mousemove', handleMouseMove)
     }, [])
 
-    // Force CSS animations with higher specificity
-    useEffect(() => {
-        const createSubtleAnimations = () => {
-            // Remove existing styles first
-            const existingStyle = document.getElementById('hero-animations')
-            if (existingStyle) {
-                existingStyle.remove()
-            }
 
-            const style = document.createElement('style')
-            style.id = 'hero-animations'
-            style.textContent = `
-                .hero-gentle-float {
-                    animation: hero-gentle-float 4s ease-in-out infinite !important;
-                }
-                
-                .hero-subtle-pulse {
-                    animation: hero-subtle-pulse 3s ease-in-out infinite !important;
-                }
-                
-                .hero-grid-shift {
-                    animation: hero-grid-shift 8s ease-in-out infinite !important;
-                }
-                
-                .hero-orb-drift {
-                    animation: hero-orb-drift 12s ease-in-out infinite !important;
-                }
-                
-                @keyframes hero-gentle-float {
-                    0%, 100% { 
-                        transform: translateY(0px) scale(1) !important; 
-                        opacity: 0.3 !important; 
-                    }
-                    50% { 
-                        transform: translateY(-8px) scale(1.02) !important; 
-                        opacity: 0.6 !important; 
-                    }
-                }
-                
-                @keyframes hero-subtle-pulse {
-                    0%, 100% { opacity: 0.1 !important; }
-                    50% { opacity: 0.25 !important; }
-                }
-                
-                @keyframes hero-grid-shift {
-                    0% { transform: translate(0, 0) !important; }
-                    100% { transform: translate(2px, 2px) !important; }
-                }
-                
-                @keyframes hero-orb-drift {
-                    0%, 100% { 
-                        transform: translate(0, 0) scale(1) !important; 
-                    }
-                    50% { 
-                        transform: translate(20px, -15px) scale(1.05) !important; 
-                    }
-                }
-            `
-            document.head.appendChild(style)
-            return () => {
-                const styleToRemove = document.getElementById('hero-animations')
-                if (styleToRemove) {
-                    styleToRemove.remove()
-                }
-            }
-        }
-
-        const cleanup = createSubtleAnimations()
-        return cleanup
-    }, [])
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -140,64 +59,15 @@ const Hero = () => {
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Clean Professional Background */}
-            <div
-                ref={backgroundRef}
-                className="absolute inset-0"
-                style={{
-                    background: `
-                        linear-gradient(135deg, 
-                            hsl(var(--background)) 0%, 
-                            hsl(var(--background)) 60%,
-                            hsl(var(--muted)) 100%
-                        )
-                    `
-                }}
-            >
-                {/* Subtle Animated Grid */}
-                <div
-                    ref={gridRef}
-                    className="absolute inset-0 opacity-[0.03] hero-grid-shift pointer-events-none"
-                    style={{
-                        backgroundImage: `
-                            linear-gradient(rgba(99, 102, 241, 0.4) 1px, transparent 1px),
-                            linear-gradient(90deg, rgba(99, 102, 241, 0.4) 1px, transparent 1px)
-                        `,
-                        backgroundSize: '80px 80px'
-                    }}
-                />
-
-                {/* Single Subtle Orb */}
-                <div
-                    className="absolute top-1/3 right-1/4 w-[500px] h-[500px] rounded-full blur-[120px] opacity-[0.15] hero-orb-drift pointer-events-none"
-                    style={{
-                        background: 'radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, transparent 70%)',
-                        transform: `translate(${mousePosition.x * 15}px, ${mousePosition.y * 15}px)`
-                    }}
-                />
-
-                {/* Minimal Accent Line */}
-                <div
-                    className="absolute top-1/2 left-0 w-32 h-px opacity-20 hero-subtle-pulse pointer-events-none"
-                    style={{
-                        background: 'linear-gradient(to right, transparent, rgba(99, 102, 241, 0.8), transparent)'
-                    }}
-                />
-
-                {/* Floating Minimal Particles */}
-                {[...Array(3)].map((_, i) => (
-                    <div
-                        key={i}
-                        className={`absolute w-1 h-1 rounded-full hero-gentle-float pointer-events-none`}
-                        style={{
-                            left: `${20 + i * 30}%`,
-                            top: `${30 + i * 20}%`,
-                            background: 'rgba(99, 102, 241, 0.6)',
-                            animationDelay: `${i * 1.5}s`
-                        }}
-                    />
-                ))}
-            </div>
+            {/* Spline 3D Background */}
+            <SplineBackground 
+                scene="https://my.spline.design/holoblobs-FDOwH1e8s13OP11Ui3rGk5df/"
+                className="pointer-events-none"
+            />
+            
+            {/* Overlay for better text readability */}
+            <div className="absolute inset-0 bg-black/30 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/10 to-black/20 pointer-events-none" />
 
             {/* Main Content */}
             <motion.div
@@ -211,13 +81,20 @@ const Hero = () => {
                     variants={itemVariants}
                     className="mb-8"
                 >
-                    <span className="text-primary font-mono text-sm tracking-wider">HELLO, I'M</span>
+                    <span className="text-white font-mono text-xl tracking-wider drop-shadow-lg font-bold">HELLO, I'M</span>
                 </motion.div>
 
                 {/* Name */}
                 <motion.h1
                     variants={textVariants}
-                    className="text-hero font-bold mb-10 gradient-text"
+                    className="text-hero font-bold mb-10 text-white drop-shadow-2xl"
+                    style={{
+                        textShadow: '0 0 20px rgba(0,0,0,0.8), 0 0 40px rgba(0,0,0,0.6)',
+                        background: 'linear-gradient(135deg, #ffffff 0%, #e0e7ff 50%, #c7d2fe 100%)',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                    }}
                 >
                     Enej Polak
                 </motion.h1>

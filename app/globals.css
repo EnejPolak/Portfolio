@@ -545,6 +545,31 @@ body.pinned-scroll {
 }
 
 /* Responsive pinned scrolling */
+/* Social Icons Styles */
+.social-links {
+  gap: 2rem !important;
+}
+
+.social-icon-link {
+  padding: 0.5rem !important;
+  margin: 0 0.5rem;
+  min-width: 40px;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.social-icon-link svg {
+  width: 1.75rem !important;
+  height: 1.75rem !important;
+}
+
+/* Button styles for mobile */
+.cta-button {
+  padding: 0.5rem 2rem;
+}
+
 @media (max-width: 768px) {
   .hero-section.pinned {
     height: 100vh;
@@ -552,5 +577,36 @@ body.pinned-scroll {
   
   .projects-section.overlay {
     margin-top: 100vh;
+  }
+  
+  .social-links {
+    gap: 1.5rem !important;
+  }
+  
+  .social-icon-link {
+    padding: 0.75rem !important;
+    margin: 0 0.25rem;
+    min-width: 50px;
+    min-height: 50px;
+  }
+  
+  .social-icon-link svg {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+  }
+  
+  /* Make buttons bigger and equal width on mobile */
+  .cta-button {
+    padding: 0.875rem 2.5rem !important;
+    min-width: 200px !important;
+    width: 200px !important;
+    text-align: center;
+    font-size: 1.125rem !important;
+    font-weight: 600 !important;
+  }
+  
+  /* Make main title bigger on mobile */
+  .text-hero {
+    font-size: clamp(3rem, 12vw, 8rem) !important;
   }
 }

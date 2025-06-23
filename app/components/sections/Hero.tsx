@@ -152,8 +152,7 @@ const Hero = () => {
                     {/* Primary Button with Magic Effect */}
                     <motion.button
                         onClick={() => setIsCVModalOpen(true)}
-                        className="group relative bg-primary text-primary-foreground rounded-full font-medium text-base overflow-hidden border border-primary/20"
-                        style={{ padding: '0.5rem 2rem' }}
+                        className="group relative cta-button bg-card/60 backdrop-blur-md text-primary rounded-full font-medium text-base overflow-hidden border border-border/40"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
@@ -177,41 +176,18 @@ const Hero = () => {
                             <Sparkles className="absolute bottom-2 left-2 w-2 h-2 text-white/40" />
                         </motion.div>
 
-                        <span className="relative z-10 flex items-center gap-2">
+                        <span className="relative z-10">
                             Download CV
-                            <motion.div
-                                className="group-hover:translate-x-1 transition-transform duration-200"
-                            >
-                                <ArrowRight className="w-4 h-4" />
-                            </motion.div>
                         </span>
                     </motion.button>
 
                     {/* Secondary Button with Morphing Border */}
                     <motion.button
                         onClick={() => setIsContactModalOpen(true)}
-                        className="group relative bg-transparent text-primary rounded-full font-medium text-base overflow-hidden"
-                        style={{ padding: '0.5rem 2rem' }}
+                        className="group relative cta-button bg-card/60 backdrop-blur-md text-primary rounded-full font-medium text-base overflow-hidden border border-border/40"
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                     >
-                        {/* Morphing Border */}
-                        <motion.div
-                            className="absolute inset-0 rounded-full border-2 border-primary/30"
-                            whileHover={{
-                                scale: [1, 1.05, 1],
-                                borderWidth: ['2px', '3px', '2px'],
-                                borderColor: ['rgba(99, 102, 241, 0.3)', 'rgba(99, 102, 241, 1)', 'rgba(99, 102, 241, 0.3)']
-                            }}
-                            transition={{ duration: 0.5 }}
-                        />
-
-                        {/* Gradient Fill on Hover */}
-                        <motion.div
-                            className="absolute inset-0 bg-primary/5 rounded-full opacity-0 group-hover:opacity-100"
-                            transition={{ duration: 0.3 }}
-                        />
-
                         <span className="relative z-10">Get In Touch</span>
                     </motion.button>
                 </motion.div>
@@ -219,8 +195,7 @@ const Hero = () => {
                 {/* Enhanced Social Links */}
                 <motion.div
                     variants={itemVariants}
-                    className="flex justify-center"
-                    style={{ gap: '2rem' }}
+                    className="flex justify-center social-links"
                 >
                     {[
                         { icon: Github, href: "https://github.com/EnejPolak", label: "GitHub", color: "hover:text-white hover:bg-black" },
@@ -232,7 +207,7 @@ const Hero = () => {
                             href={href}
                             target={href.startsWith('http') ? '_blank' : undefined}
                             rel={href.startsWith('http') ? 'noopener noreferrer' : undefined}
-                            className={`group relative p-4 bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 transition-all duration-300 ${color}`}
+                            className={`group relative social-icon-link bg-card/50 backdrop-blur-sm rounded-xl border border-border/50 transition-all duration-300 ${color}`}
                             whileHover={{
                                 scale: 1.1,
                                 y: -5

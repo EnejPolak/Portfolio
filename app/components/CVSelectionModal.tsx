@@ -141,7 +141,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Eye className="w-4 h-4 text-purple-400" />
-                                        <span className="text-white font-medium">Preview</span>
+                                        <span className="text-white font-medium">Predogled</span>
                                     </div>
                                 </button>
                                 <button
@@ -150,7 +150,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Download className="w-4 h-4 text-purple-300" />
-                                        <span className="text-white font-medium">Download</span>
+                                        <span className="text-white font-medium">Prenesi</span>
                                     </div>
                                 </button>
                             </div>

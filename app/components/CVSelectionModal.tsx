@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, useEffect } from 'react'
-import { X, Download, FileText } from 'lucide-react'
+import { X, Download, FileText, Eye } from 'lucide-react'
 import { gsap } from 'gsap'
 
 interface CVSelectionModalProps {
@@ -43,10 +43,31 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
         .call(() => onClose())
     }
 
+    const previewCV = (language: 'slovensko' | 'english') => {
+        // Get the correct PDF path
+        const pdfPath = language === 'slovensko' ? 
+            '/cv/pdf/EnejPolak-Resume-SL.pdf' : 
+            '/cv/pdf/EnejPolak-Resume-EN.pdf'
+        
+        // Open PDF in new window for preview
+        window.open(pdfPath, '_blank', 'width=900,height=1200,scrollbars=yes,resizable=yes')
+    }
+
     const downloadCV = (language: 'slovensko' | 'english') => {
-        // Open CV in new window for manual saving/printing
-        const cvUrl = `/cv/cv-${language}.html`
-        window.open(cvUrl, '_blank', 'width=800,height=1000,scrollbars=yes,resizable=yes')
+        // Get the correct PDF path
+        const pdfPath = language === 'slovensko' ? 
+            '/cv/pdf/EnejPolak-Resume-SL.pdf' : 
+            '/cv/pdf/EnejPolak-Resume-EN.pdf'
+        
+        // Create download link
+        const link = document.createElement('a')
+        link.href = pdfPath
+        link.download = language === 'slovensko' ? 
+            'EnejPolak-Resume-SL.pdf' : 
+            'EnejPolak-Resume-EN.pdf'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
         
         // Close the modal
         handleClose()
@@ -66,7 +87,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
         >
             <div 
                 ref={modalRef}
-                className="relative w-full max-w-lg mx-auto"
+                className="relative w-full max-w-2xl mx-auto"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                     background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(10, 10, 10, 0.95) 100%)',
@@ -86,64 +107,97 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                 </button>
 
                 {/* Header */}
-                <div className="text-center mb-4 cv-modal-header">
+                <div className="text-center mb-6 cv-modal-header">
                     <div className="w-18 h-18 bg-gradient-to-br from-purple-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
                         <FileText className="w-9 h-9 text-white" />
                     </div>
                     <h2 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent mb-3">
-                        Download CV
+                        Resume / CV
                     </h2>
                     <p className="text-white/60 text-base">
-                        Choose your preferred language
+                        Choose your preferred language and action
                     </p>
                 </div>
 
                 {/* Language Options */}
-                <div className="flex flex-col gap-3 cv-modal-container">
-                    <button
-                        onClick={() => downloadCV('slovensko')}
-                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-8 transition-all duration-300 text-left"
-                    >
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
+                <div className="flex flex-col gap-6 cv-modal-container">
+                    {/* Slovensko */}
+                    <div className="bg-white/8 border border-white/15 rounded-2xl p-6">
+                        <div className="flex items-start gap-6">
+                            {/* Language Info */}
+                            <div className="flex items-center gap-4 min-w-0 flex-1">
                                 <div className="text-4xl">🇸🇮</div>
                                 <div>
-                                    <h3 className="text-white font-semibold text-xl mb-2">Slovenščina</h3>
-                                    <p className="text-white/60 text-base">Slovenski življenjepis</p>
+                                    <h3 className="text-white font-semibold text-xl mb-1">Slovenščina</h3>
+                                    <p className="text-white/60 text-sm">Slovenski življenjepis</p>
                                 </div>
                             </div>
-                            <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                            
+                            {/* Buttons */}
+                            <div className="flex flex-col gap-3 min-w-[140px]">
+                                <button
+                                    onClick={() => previewCV('slovensko')}
+                                    className="group relative bg-white/10 hover:bg-white/15 border border-white/20 hover:border-purple-500/40 rounded-xl p-4 transition-all duration-300 w-full"
+                                >
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Eye className="w-4 h-4 text-purple-400" />
+                                        <span className="text-white font-medium">Preview</span>
+                                    </div>
+                                </button>
+                                <button
+                                    onClick={() => downloadCV('slovensko')}
+                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl p-4 transition-all duration-300 w-full"
+                                >
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Download className="w-4 h-4 text-purple-300" />
+                                        <span className="text-white font-medium">Download</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
-                        
-                        {/* Hover gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </button>
+                    </div>
 
-                    <button
-                        onClick={() => downloadCV('english')}
-                        className="w-full group relative bg-white/8 hover:bg-white/12 border border-white/15 hover:border-purple-500/30 rounded-2xl p-8 transition-all duration-300 text-left"
-                    >
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-4">
+                    {/* English */}
+                    <div className="bg-white/8 border border-white/15 rounded-2xl p-6">
+                        <div className="flex items-start gap-6">
+                            {/* Language Info */}
+                            <div className="flex items-center gap-4 min-w-0 flex-1">
                                 <div className="text-4xl">🇺🇸</div>
                                 <div>
-                                    <h3 className="text-white font-semibold text-xl mb-2">English</h3>
-                                    <p className="text-white/60 text-base">English resume</p>
+                                    <h3 className="text-white font-semibold text-xl mb-1">English</h3>
+                                    <p className="text-white/60 text-sm">English resume</p>
                                 </div>
                             </div>
-                            <Download className="w-5 h-5 text-purple-400 group-hover:text-purple-300 transition-colors" />
+                            
+                            {/* Buttons */}
+                            <div className="flex flex-col gap-3 min-w-[140px]">
+                                <button
+                                    onClick={() => previewCV('english')}
+                                    className="group relative bg-white/10 hover:bg-white/15 border border-white/20 hover:border-purple-500/40 rounded-xl p-4 transition-all duration-300 w-full"
+                                >
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Eye className="w-4 h-4 text-purple-400" />
+                                        <span className="text-white font-medium">Preview</span>
+                                    </div>
+                                </button>
+                                <button
+                                    onClick={() => downloadCV('english')}
+                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl p-4 transition-all duration-300 w-full"
+                                >
+                                    <div className="flex items-center justify-center gap-2">
+                                        <Download className="w-4 h-4 text-purple-300" />
+                                        <span className="text-white font-medium">Download</span>
+                                    </div>
+                                </button>
+                            </div>
                         </div>
-                        
-                        {/* Hover gradient */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-blue-600/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    </button>
+                    </div>
                 </div>
 
                 {/* Footer */}
                 <div className="mt-6 text-center cv-modal-footer">
                     <p className="text-white/40 text-sm leading-relaxed">
-                        CV will open in new window.<br/>
-                        Use Ctrl+P (Windows) or Cmd+P (Mac) to save as PDF
+                        Preview opens PDF in new window • Download saves file to your device
                     </p>
                 </div>
             </div>

@@ -267,12 +267,6 @@ const Hero = () => {
                 isOpen={isCVModalOpen}
                 onClose={() => setIsCVModalOpen(false)}
             />
-            
-            {/* CV Selection Modal */}
-            <CVSelectionModal 
-                isOpen={isCVModalOpen}
-                onClose={() => setIsCVModalOpen(false)}
-            />
         </section>
     )
 }

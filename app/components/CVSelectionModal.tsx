@@ -78,7 +78,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
     return (
         <div 
             ref={overlayRef}
-            className="fixed inset-0 z-50 flex items-center justify-center p-4"
+            className="fixed inset-0 z-50 flex items-center justify-center p-6 sm:p-4"
             style={{ 
                 background: 'rgba(0, 0, 0, 0.8)',
                 backdropFilter: 'blur(8px)'
@@ -87,13 +87,13 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
         >
             <div 
                 ref={modalRef}
-                className="relative w-full max-w-2xl mx-auto"
+                className="relative w-full max-w-sm sm:max-w-2xl mx-auto"
                 onClick={(e) => e.stopPropagation()}
                 style={{
                     background: 'linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(17, 17, 17, 0.95) 50%, rgba(10, 10, 10, 0.95) 100%)',
                     border: '1px solid rgba(99, 102, 241, 0.3)',
                     borderRadius: '24px',
-                    padding: '1rem 2.5rem',
+                    padding: '1.5rem 1.5rem',
                     boxShadow: '0 20px 60px -10px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.05)',
                     backdropFilter: 'blur(20px)'
                 }}
@@ -137,7 +137,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                             <div className="flex flex-col gap-3 min-w-[140px]">
                                 <button
                                     onClick={() => previewCV('slovensko')}
-                                    className="group relative bg-white/10 hover:bg-white/15 border border-white/20 hover:border-purple-500/40 rounded-xl p-4 transition-all duration-300 w-full"
+                                    className="group relative bg-white/10 hover:bg-white/15 hover:bg-white/20 border border-white/20 hover:border-purple-500/40 rounded-2xl p-4 transition-all duration-300 w-full"
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Eye className="w-4 h-4 text-purple-400" />
@@ -146,7 +146,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                                 </button>
                                 <button
                                     onClick={() => downloadCV('slovensko')}
-                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl p-4 transition-all duration-300 w-full"
+                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/30 hover:border-purple-400/50 rounded-2xl p-4 transition-all duration-300 w-full"
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Download className="w-4 h-4 text-purple-300" />
@@ -173,7 +173,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                             <div className="flex flex-col gap-3 min-w-[140px]">
                                 <button
                                     onClick={() => previewCV('english')}
-                                    className="group relative bg-white/10 hover:bg-white/15 border border-white/20 hover:border-purple-500/40 rounded-xl p-4 transition-all duration-300 w-full"
+                                    className="group relative bg-white/10 hover:bg-white/15 hover:bg-white/20 border border-white/20 hover:border-purple-500/40 rounded-2xl p-4 transition-all duration-300 w-full"
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Eye className="w-4 h-4 text-purple-400" />
@@ -182,7 +182,7 @@ const CVSelectionModal = ({ isOpen, onClose }: CVSelectionModalProps) => {
                                 </button>
                                 <button
                                     onClick={() => downloadCV('english')}
-                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/30 hover:border-purple-400/50 rounded-xl p-4 transition-all duration-300 w-full"
+                                    className="group relative bg-purple-600/20 hover:bg-purple-600/30 hover:bg-purple-600/40 border border-purple-500/30 hover:border-purple-400/50 rounded-2xl p-4 transition-all duration-300 w-full"
                                 >
                                     <div className="flex items-center justify-center gap-2">
                                         <Download className="w-4 h-4 text-purple-300" />

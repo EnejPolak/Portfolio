@@ -26,7 +26,7 @@ const Projects = () => {
         "Sweet Samples": "https://sweetsamplesuk.com/",
         "TM Scent": "https://tmscents.com/",
         "AK Žalec": "https://www.atletski-klub-zalec.si/",
-        "Schedulizer": "https://schedulizer.eu/"
+        "Schedulizer": ""
     }
 
     const projectsData = [

@@ -24,7 +24,7 @@ const Projects = () => {
         "Cologne Room": "https://thecologneroom.co.uk/",
         "Nirvana": "https://nirvana-perfume.com/",
         "Sweet Samples": "https://sweetsamplesuk.com/",
-        "TM Scent": "https://tmscents.com/",
+        "TM Scent": "",
         "AK Žalec": "https://www.atletski-klub-zalec.si/",
         "Schedulizer": ""
     }

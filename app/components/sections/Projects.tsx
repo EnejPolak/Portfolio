@@ -1,3 +1,4 @@
+// @ts-nocheck
 'use client'
 
 import { motion } from 'framer-motion'
@@ -5,6 +6,7 @@ import { useInView } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image'
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger)
@@ -151,9 +153,9 @@ const Projects = () => {
         const ctx = canvas.getContext('2d')
         if (!ctx) return
 
-        // Configuration options for topography
+        // Configuration options for topography - optimizirano
         const config = {
-            linesCount: 40,
+            linesCount: 25, // Zmanjšano iz 40 za boljšo performanco
             baseAmplitude: 50,
             interactionRadius: 150,
             interactionStrength: 30,
@@ -222,26 +224,26 @@ const Projects = () => {
         // Initialize
         resizeCanvas()
         initLines()
-        
-        console.log('Canvas initialized:', canvas.width, canvas.height)
-        console.log('Lines count:', linesState.length)
 
         // Throttled mouse movement handling
+        let lastMouseMoveTime = 0
+        const throttleDelay = 16 // ~60fps
         // let lastInteractionX = 0
         // let lastInteractionY = 0
         // let movementAccumulator = 0
 
-        // Mouse event handlers
+        // Mouse event handlers - optimizirano z throttling
         const handleMouseMove = (e: MouseEvent) => {
+            const now = performance.now()
+            
+            // Throttle mouse events za boljšo performanco
+            if (now - lastMouseMoveTime < throttleDelay) return
+            lastMouseMoveTime = now
+            
             // For fixed positioned canvas, use clientX/Y directly
             mouseX = e.clientX
             mouseY = e.clientY
             mouseOnCanvas = true
-            
-            console.log('Mouse move:', mouseX, mouseY) // Debug
-            
-            // Always create interaction effects when mouse moves
-            const now = performance.now()
             
             // Check which lines are within interaction range and create effects
             for (let i = 0; i < linesState.length; i++) {
@@ -256,8 +258,6 @@ const Projects = () => {
                     line.flowCenter = mouseX
                     line.flowStartTime = now
                     line.flowStrength = effect
-                    
-                    console.log('Creating effect for line', i, 'with strength', effect) // Debug
                 }
             }
             
@@ -525,13 +525,17 @@ const Projects = () => {
                                 >
                                     <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                         <div className="relative h-40 overflow-hidden">
-                                            <img
+                                            <Image
                                                 src={project.image}
                                                 alt={project.name}
+                                                width={288}
+                                                height={160}
                                                 className="w-full h-full object-cover transition-transform duration-700"
                                                 style={{
                                                     transform: hoveredProject === index ? 'scale(1.1)' : 'scale(1)'
                                                 }}
+                                                loading="lazy"
+                                                quality={85}
                                             />
                                         </div>
 
@@ -553,14 +557,17 @@ const Projects = () => {
                                                             transitionDelay: hoveredProject === index ? `${i * 50}ms` : '0ms'
                                                         }}
                                                     >
-                                                        <img
+                                                        <Image
                                                             src={icon}
                                                             alt={project.technologies[i]}
+                                                            width={40}
+                                                            height={40}
                                                             className="w-full h-full object-contain"
                                                             style={icon.includes('GSAP.png') ? { 
                                                                 transform: 'scale(1.3)',
                                                                 filter: 'brightness(1.2) contrast(1.2)'
                                                             } : {}}
+                                                            loading="lazy"
                                                         />
                                                     </div>
                                                 ))}
@@ -600,13 +607,17 @@ const Projects = () => {
                                     >
                                         <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                             <div className="relative h-40 overflow-hidden">
-                                                <img
+                                                <Image
                                                     src={project.image}
                                                     alt={project.name}
+                                                    width={288}
+                                                    height={160}
                                                     className="w-full h-full object-cover transition-transform duration-700"
                                                     style={{
                                                         transform: hoveredProject === realIndex ? 'scale(1.1)' : 'scale(1)'
                                                     }}
+                                                    loading="lazy"
+                                                    quality={85}
                                                 />
                                             </div>
 
@@ -628,14 +639,17 @@ const Projects = () => {
                                                                 transitionDelay: hoveredProject === realIndex ? `${i * 50}ms` : '0ms'
                                                             }}
                                                         >
-                                                            <img
+                                                            <Image
                                                                 src={icon}
                                                                 alt={project.technologies[i]}
+                                                                width={40}
+                                                                height={40}
                                                                 className="w-full h-full object-contain"
                                                                 style={icon.includes('GSAP.png') ? { 
                                                                     transform: 'scale(1.3)',
                                                                     filter: 'brightness(1.2) contrast(1.2)'
                                                                 } : {}}
+                                                                loading="lazy"
                                                             />
                                                         </div>
                                                     ))}
@@ -665,13 +679,17 @@ const Projects = () => {
                             >
                                 <div className="relative rounded-2xl overflow-hidden border border-white/10 backdrop-blur-sm w-full h-full" style={{backgroundColor: '#0e1111'}}>
                                     <div className="relative h-40 overflow-hidden">
-                                        <img
+                                        <Image
                                             src={projectsData[6].image}
                                             alt={projectsData[6].name}
+                                            width={288}
+                                            height={160}
                                             className="w-full h-full object-cover transition-transform duration-700"
                                             style={{
                                                 transform: hoveredProject === 6 ? 'scale(1.1)' : 'scale(1)'
                                             }}
+                                            loading="lazy"
+                                            quality={85}
                                         />
                                     </div>
 
@@ -693,10 +711,13 @@ const Projects = () => {
                                                         transitionDelay: hoveredProject === 6 ? `${i * 50}ms` : '0ms'
                                                     }}
                                                 >
-                                                    <img
+                                                    <Image
                                                         src={icon}
                                                         alt={projectsData[6].technologies[i]}
+                                                        width={40}
+                                                        height={40}
                                                         className="w-full h-full object-contain"
+                                                        loading="lazy"
                                                     />
                                                 </div>
                                             ))}

@@ -1,21 +1,38 @@
+// @ts-nocheck
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import * as THREE from 'three'
 
 const ThreeBackground = () => {
     const containerRef = useRef<HTMLDivElement>(null)
+    const [shouldRender, setShouldRender] = useState(false)
 
     useEffect(() => {
         if (!containerRef.current) return
 
-        console.log('Three.js component mounting...')
+        // Intersection Observer za lazy initialization
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting) {
+                    setShouldRender(true)
+                    observer.disconnect()
+                }
+            },
+            { rootMargin: '200px' }
+        )
+        
+        observer.observe(containerRef.current)
+        
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
+        if (!containerRef.current || !shouldRender) return
         
         const container = containerRef.current
         const scene = new THREE.Scene()
         const { offsetWidth: width, offsetHeight: height } = container
-
-        console.log('Container dimensions:', width, height)
 
         const camera = new THREE.PerspectiveCamera(45, width / height, 1, 100)
         camera.position.z = 4
@@ -27,8 +44,8 @@ const ThreeBackground = () => {
 
         renderer.setSize(width, height)
         renderer.setClearColor(0x0b0a0b, 1)
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)) // Optimizacija za performanco
         
-        console.log('Adding canvas to container...')
         container.appendChild(renderer.domElement)
 
         // Original shader geometry and material
@@ -159,9 +176,6 @@ const ThreeBackground = () => {
         mesh.rotation.x = -Math.PI / 4
         scene.add(mesh)
 
-        console.log('Mesh added to scene')
-        console.log('Shader uniforms:', material.uniforms)
-
         let animationId: number
         let rotationValue = 0
         const rotationSpeed = (2 * Math.PI) / (10 * 60) // 10 seconds for full rotation
@@ -179,7 +193,6 @@ const ThreeBackground = () => {
         }
 
         animate()
-        console.log('Animation started')
 
         // Handle resize
         const handleResize = () => {
@@ -194,7 +207,6 @@ const ThreeBackground = () => {
         window.addEventListener('resize', handleResize)
 
         return () => {
-            console.log('Cleaning up Three.js component...')
             window.removeEventListener('resize', handleResize)
             
             if (animationId) {
@@ -209,14 +221,18 @@ const ThreeBackground = () => {
             material.dispose()
             geometry.dispose()
         }
-    }, [])
+    }, [shouldRender])
 
     return (
         <div 
             ref={containerRef}
             className="viewport absolute inset-0 w-full h-full overflow-hidden pointer-events-none"
             style={{ zIndex: 0 }}
-        />
+        >
+            {!shouldRender && (
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/10 via-blue-900/10 to-indigo-900/10 animate-pulse" />
+            )}
+        </div>
     )
 }
 

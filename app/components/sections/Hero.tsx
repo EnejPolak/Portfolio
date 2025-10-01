@@ -2,11 +2,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, lazy, Suspense } from 'react'
 import { ChevronDown, Github, Linkedin, Mail, ArrowRight, Sparkles } from 'lucide-react'
 import ContactModal from '../ContactModal'
 import CVSelectionModal from '../CVSelectionModal'
-import SplineBackground from '../3d/SplineBackground'
+
+// Lazy load 3D background za boljšo performanco
+const SplineBackground = lazy(() => import('../3d/SplineBackground'))
 
 const Hero = () => {
     const [isLoaded, setIsLoaded] = useState(false)
@@ -59,11 +61,15 @@ const Hero = () => {
 
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-            {/* Spline 3D Background */}
-            <SplineBackground 
-                scene="https://my.spline.design/holoblobs-FDOwH1e8s13OP11Ui3rGk5df/"
-                className="pointer-events-none"
-            />
+            {/* Spline 3D Background - Lazy Loaded */}
+            <Suspense fallback={
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-blue-900/20 to-indigo-900/20 animate-pulse" />
+            }>
+                <SplineBackground 
+                    scene="https://my.spline.design/holoblobs-FDOwH1e8s13OP11Ui3rGk5df/"
+                    className="pointer-events-none"
+                />
+            </Suspense>
             
             {/* Overlay for better text readability */}
             <div className="absolute inset-0 bg-black/30 pointer-events-none" />
